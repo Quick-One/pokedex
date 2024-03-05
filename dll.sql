@@ -134,3 +134,34 @@ create table pokemon_types
 
 create index type_id
     on pokemon_types (type_id);
+
+
+CREATE TABLE auth (
+    user_id INT PRIMARY KEY,
+    password VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
+);
+
+CREATE TABLE user (
+    user_id INT PRIMARY KEY,
+    username VARCHAR(255) UNIQUE,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255)
+);
+
+CREATE TABLE roster_user (
+    roster_id INT PRIMARY KEY,
+    roster_name VARCHAR(255),
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
+);
+
+CREATE TABLE roster (
+    roster_id INT,
+    pokemon_id INT,
+    move_id INT,
+    PRIMARY KEY (roster_id, pokemon_id, move_id),
+    FOREIGN KEY (roster_id) REFERENCES roster_user(roster_id),
+    FOREIGN KEY (pokemon_id) REFERENCES pokemon(id),
+    FOREIGN KEY (move_id) REFERENCES moves(id)
+);
