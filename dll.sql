@@ -1,3 +1,6 @@
+create database pokedex;
+use pokedex;
+
 create table generations
 (
     id             int auto_increment primary key,
