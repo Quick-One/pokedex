@@ -10,3 +10,4 @@
 - pip install cryptography
 - `create database pokemon;` in MySQL
 - `pokedex load -e mysql+pymysql://{USERNAME}:{PASSWORD}@localhost:{PORTNUMBER}/pokemon` for me it was `pokedex load -e mysql+pymysql://quick_one:{PASSWORD}@localhost:3306/pokemon`
+- execute `dll.sql`
