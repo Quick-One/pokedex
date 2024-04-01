@@ -22,7 +22,10 @@ DB_PASSWORD=your_password
 DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=pokedex
+SQLALCHEMY_SILENCE_UBER_WARNING=1
 ```
 
 ### importing the database to MySQL
 - pip install pandas sqlalchemy pymysql
+- pip install --force-reinstall 'sqlalchemy<2.0.0'
+- pip install pandas==2.1.4
