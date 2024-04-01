@@ -10,6 +10,7 @@
 - pip install cryptography
 - `create database pokemon;` in MySQL
 - `pokedex load -e mysql+pymysql://{USERNAME}:{PASSWORD}@localhost:{PORTNUMBER}/pokemon` for me it was `pokedex load -e mysql+pymysql://quick_one:{PASSWORD}@localhost:3306/pokemon`
+- cd ..
 - execute `dll.sql`
 
 ### setting up environment variables
@@ -29,3 +30,4 @@ SQLALCHEMY_SILENCE_UBER_WARNING=1
 - pip install pandas sqlalchemy pymysql
 - pip install --force-reinstall 'sqlalchemy<2.0.0'
 - pip install pandas==2.1.4
+- run loader.ipynb
