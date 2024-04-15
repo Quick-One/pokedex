@@ -10,8 +10,10 @@ public class MainMenu extends  JFrame{
     private JButton btnDeleteRoster;
     private JButton btnShowRosters;
     private JLabel lblHeader2;
+    private User user;
 
-public MainMenu() {
+public MainMenu(User user) {
+        System.out.println("Hello" + user.first_name);
         setTitle("Main Menu");
         setContentPane(MainMenuPanel);
         pack();
@@ -22,6 +24,6 @@ public MainMenu() {
     }
 
     public static void main(String[] args) {
-        new MainMenu();
+//        new MainMenu();
     }
 }

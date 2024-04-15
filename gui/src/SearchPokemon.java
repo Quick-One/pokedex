@@ -54,6 +54,7 @@ public class SearchPokemon extends JDialog{
                 System.out.println(selectedValue.id);
                 if (selectedValue == null) return;
                 Pokemon pokemon = connector.getPokemonById(selectedValue.id);
+                System.out.println(pokemon.habitat);
                 System.out.println(pokemon);
                 listMove.setListData(pokemon.moves);
                 populateTable(pokemon);
@@ -109,18 +110,18 @@ public class SearchPokemon extends JDialog{
 
     private void populateTable(Pokemon pokemon){
         java.util.function.Function<Object, String> nullToNA = (Object value) -> value == null ? "N/A" : value.toString();
-        tableInfo.setValueAt(pokemon.name, 0, 1);
-        tableInfo.setValueAt(pokemon.id, 1, 1);
-        tableInfo.setValueAt(pokemon.generation, 2, 1);
-        tableInfo.setValueAt(pokemon.height, 3, 1);
-        tableInfo.setValueAt(pokemon.weight, 4, 1);
-        tableInfo.setValueAt(pokemon.baseExperience, 5, 1);
-        tableInfo.setValueAt(pokemon.color, 6, 1);
-        tableInfo.setValueAt(pokemon.habitat, 7, 1);
-        tableInfo.setValueAt(pokemon.shape, 8, 1);
-        tableInfo.setValueAt(String.join(", ", pokemon.types), 9, 1);
-        tableInfo.setValueAt(pokemon.captureRate, 10, 1);
-        tableInfo.setValueAt(nullToNA.apply(pokemon.isLegendary), 11, 1);
-        tableInfo.setValueAt(nullToNA.apply(pokemon.isMythical), 12, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.name), 0, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.id), 1, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.generation), 2, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.height), 3, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.weight), 4, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.baseExperience), 5, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.color), 6, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.habitat), 7, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.shape), 8, 1);
+        tableInfo.setValueAt(nullToNA.apply(String.join(", ", pokemon.types)), 9, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.captureRate), 10, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.getIsLegendary()), 11, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.getIsMythical()), 12, 1);
     }
 }
