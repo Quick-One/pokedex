@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,6 +10,10 @@ public class SignUp extends JDialog {
     private JButton btnCancel;
     private JPanel SignUpPanel;
     private JTextField tfUserName;
+    private JTextField tfFirstName;
+    private JTextField tfLastName;
+    private JLabel lblLastName;
+    private JLabel lblFirstName;
 
     public SignUp(JFrame parent) {
         super(parent);
@@ -41,15 +44,17 @@ public class SignUp extends JDialog {
 
     private void registerUser() {
         String username = tfUserName.getText();
+        String firstName = tfFirstName.getText();
+        String lastName = tfLastName.getText();
         String password = new String(pfPassword.getPassword());
         String confirmPassword = new String(pfConfirmPassword.getPassword());
 
-        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || firstName.isEmpty() || lastName.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields!");
         } else if (!password.equals(confirmPassword)) {
             JOptionPane.showMessageDialog(null, "Passwords do not match!");
         } else {
-            boolean userAddStatus = DatabaseConnector.checkSignUp(username, password);
+            boolean userAddStatus = DatabaseConnector.checkSignUp(username, password, firstName, lastName);
             if (!userAddStatus) {
                 JOptionPane.showMessageDialog(null, "Username already exists!");
             }

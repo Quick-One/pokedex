@@ -138,6 +138,18 @@ create table pokemon_types
 create index type_id
     on pokemon_types (type_id);
 
+-- # use pokedex;
+-- # DROP  table roster;
+-- # drop table roster_user;
+-- # drop table auth;
+-- # drop table  user;
+
+CREATE TABLE user (
+    user_id INT auto_increment PRIMARY KEY,
+    username VARCHAR(255) UNIQUE,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255)
+);
 
 CREATE TABLE auth (
     user_id INT PRIMARY KEY,
@@ -145,15 +157,8 @@ CREATE TABLE auth (
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
-CREATE TABLE user (
-    user_id INT PRIMARY KEY,
-    username VARCHAR(255) UNIQUE,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255)
-);
-
 CREATE TABLE roster_user (
-    roster_id INT PRIMARY KEY,
+    roster_id INT auto_increment PRIMARY KEY,
     roster_name VARCHAR(255),
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES user(user_id)
