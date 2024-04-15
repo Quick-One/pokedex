@@ -8,7 +8,6 @@ public class MainMenu extends  JFrame{
     private JLabel lblHeader1;
     private JButton btnUpdateRoster;
     private JButton btnDeleteRoster;
-    private JButton btnSearchMoves;
     private JButton btnShowRosters;
     private JLabel lblHeader2;
 

@@ -1,5 +1,5 @@
 import javax.swing.*;
-import java.awt.*;
+import javax.swing.table.TableColumn;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -20,6 +20,10 @@ public class SearchPokemon extends JDialog{
     private JComboBox<String> cbxGeneration;
     private JComboBox<String> cbxType;
     private JTabbedPane tabbedPane1;
+    private JTable tableInfo;
+    private JPanel tabInfo;
+    private JPanel tabMoves;
+    private JList<Move> listMove;
 
     public SearchPokemon(JFrame parent) {
         super(parent);
@@ -40,13 +44,19 @@ public class SearchPokemon extends JDialog{
             cbxGeneration.addItem(generation);
         }
 
+
         listQueryResult.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 PokemonQuery selectedValue = listQueryResult.getSelectedValue();
+                System.out.println(selectedValue);
+                System.out.println(selectedValue.id);
                 if (selectedValue == null) return;
-//                Pokemon pokemon = connector.getPokemonById(selectedValue.id);
+                Pokemon pokemon = connector.getPokemonById(selectedValue.id);
+                System.out.println(pokemon);
+                listMove.setListData(pokemon.moves);
+                populateTable(pokemon);
             }
         });
 
@@ -71,5 +81,46 @@ public class SearchPokemon extends JDialog{
 
     public static void main(String[] args) {
         new SearchPokemon(null);
+    }
+
+    private void createUIComponents() {
+        setupTable();
+    }
+
+    private void setupTable(){
+        String[] columnNames = {"Attribute", "Value"};
+        Object[][] data = {
+                {"Name", ""},
+                {"Pokemon ID", ""},
+                {"Generation", ""},
+                {"Height", ""},
+                {"Weight", ""},
+                {"Base Experience", ""},
+                {"Color", ""},
+                {"Habitat", ""},
+                {"Shape", ""},
+                {"Types", ""},
+                {"Capture Rate", ""},
+                {"Is Legendary", ""},
+                {"Is Mythical", ""}
+        };
+        tableInfo = new JTable(data, columnNames);
+    }
+
+    private void populateTable(Pokemon pokemon){
+        java.util.function.Function<Object, String> nullToNA = (Object value) -> value == null ? "N/A" : value.toString();
+        tableInfo.setValueAt(pokemon.name, 0, 1);
+        tableInfo.setValueAt(pokemon.id, 1, 1);
+        tableInfo.setValueAt(pokemon.generation, 2, 1);
+        tableInfo.setValueAt(pokemon.height, 3, 1);
+        tableInfo.setValueAt(pokemon.weight, 4, 1);
+        tableInfo.setValueAt(pokemon.baseExperience, 5, 1);
+        tableInfo.setValueAt(pokemon.color, 6, 1);
+        tableInfo.setValueAt(pokemon.habitat, 7, 1);
+        tableInfo.setValueAt(pokemon.shape, 8, 1);
+        tableInfo.setValueAt(String.join(", ", pokemon.types), 9, 1);
+        tableInfo.setValueAt(pokemon.captureRate, 10, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.isLegendary), 11, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.isMythical), 12, 1);
     }
 }

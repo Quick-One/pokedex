@@ -2,9 +2,9 @@ public class Pokemon {
     public int id;
     public String name;
     public String generation;
-    public int height;
-    public int weight;
-    public int baseExperience;
+    public Integer height;
+    public Integer weight;
+    public Integer baseExperience;
     public String color;
     public String habitat;
     public String shape;
@@ -31,5 +31,10 @@ public class Pokemon {
         this.isLegendary = isLegendary;
         this.isMythical = isMythical;
         this.moves = moves;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + id + ")";
     }
 }
