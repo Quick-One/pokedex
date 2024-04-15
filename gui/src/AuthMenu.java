@@ -28,6 +28,7 @@ public class AuthMenu extends JFrame{
                 Login loginDialogue = new Login(AuthMenu.this);
                 if (loginDialogue.user != null){
                     dispose();
+                    new MainMenu();
                 }
             }
         });
