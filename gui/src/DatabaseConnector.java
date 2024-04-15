@@ -109,7 +109,7 @@ public class DatabaseConnector {
         }
     }
 
-    public static boolean checkSignUp(String username, String password) {
+    public static boolean checkSignUp(String username, String password, String first_name, String last_name) {
         // TODO - implement a check sign up method
         // THIS FUNCTION CALLS THE ADD NEW USER METHOD
         return true;
