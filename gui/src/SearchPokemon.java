@@ -1,14 +1,13 @@
 import javax.swing.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ContainerAdapter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class SearchPokemon {
+public class SearchPokemon extends JDialog{
     private JPanel MainPanel;
     private JTextField tfName;
-    private JTextField tfType;
-    private JTextField tfGeneration;
     private JButton btSearch;
     private JButton btCancel;
     private JPanel SearchCol;
@@ -17,46 +16,60 @@ public class SearchPokemon {
     private JLabel lblGeneration;
     private JPanel QueryCol;
     private JPanel ResultCol;
-    private JList list1;
-    private JComboBox comboBox1;
-    private PokemonConnectorDB connector;
+    private JList<PokemonQuery> listQueryResult;
+    private JComboBox<String> cbxGeneration;
+    private JComboBox<String> cbxType;
+    private JTabbedPane tabbedPane1;
 
-    public SearchPokemon() {
-        // print the items of the list list1
-//        var x = list1.getModel();
-//        for (int i = 0; i < x.getSize(); i++) {
-//            System.out.println(x.getElementAt(i));
-//        }
-        String[] types = {"Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"};
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(types);
-        comboBox1.setModel(model);
+    public SearchPokemon(JFrame parent) {
+        super(parent);
+        setTitle("Search Pokemon");
+        setContentPane(MainPanel);
+        setSize(900, 500);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(parent);
+        
+        PokemonConnectorDB connector = new PokemonConnectorDB();
+        cbxType.addItem(null);
+        for (String type : connector.getAllTypes()){
+            cbxType.addItem(type);
+        }
 
+        cbxGeneration.addItem(null);
+        for (String generation : connector.getAllGenerations()){
+            cbxGeneration.addItem(generation);
+        }
 
-
-        list1.addMouseListener(new MouseAdapter() {
+        listQueryResult.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                System.out.println(list1.getSelectedValue());
+                PokemonQuery selectedValue = listQueryResult.getSelectedValue();
+                if (selectedValue == null) return;
+                Pokemon pokemon = connector.getPokemonById(selectedValue.id);
             }
+        });
+
+        btCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+
+        setVisible(true);
+        btSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PokemonQuery[] res = connector.searchPokemon(tfName.getText(), (String) cbxType.getSelectedItem(), (String) cbxGeneration.getSelectedItem());
+                listQueryResult.setListData(res);
+            }
+        });
+        listQueryResult.addMouseListener(new MouseAdapter() {
         });
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Search Pokemon");
-        frame.setContentPane(new SearchPokemon().MainPanel);
-        // increase the size of the frame
-        frame.setSize(1000, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.pack();
-        // print the item which is clicked in the list list1
-
-
-
-        frame.setVisible(true);
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
+        new SearchPokemon(null);
     }
 }

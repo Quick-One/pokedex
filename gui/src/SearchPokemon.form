@@ -3,15 +3,17 @@
   <grid id="27dc6" binding="MainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="627" height="388"/>
+      <xy x="20" y="20" width="909" height="388"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="83495" binding="SearchCol" layout-manager="GridLayoutManager" row-count="9" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="83495" binding="SearchCol" layout-manager="GridLayoutManager" row-count="8" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="10" left="10" bottom="10" right="10"/>
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="184" height="294"/>
+          </grid>
         </constraints>
         <properties/>
         <border type="none" title="Search Pokemons"/>
@@ -26,7 +28,7 @@
           </component>
           <vspacer id="ee50b">
             <constraints>
-              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
           <component id="54cdc" class="javax.swing.JTextField" binding="tfName">
@@ -45,14 +47,6 @@
               <text value="Type:"/>
             </properties>
           </component>
-          <component id="6f1d9" class="javax.swing.JTextField" binding="tfType">
-            <constraints>
-              <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-            </constraints>
-            <properties/>
-          </component>
           <component id="a5984" class="javax.swing.JLabel" binding="lblGeneration">
             <constraints>
               <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -61,17 +55,9 @@
               <text value="Generation:"/>
             </properties>
           </component>
-          <component id="89339" class="javax.swing.JTextField" binding="tfGeneration">
-            <constraints>
-              <grid row="6" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-            </constraints>
-            <properties/>
-          </component>
           <component id="44ebc" class="javax.swing.JButton" binding="btSearch">
             <constraints>
-              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Search"/>
@@ -79,32 +65,34 @@
           </component>
           <component id="bf45d" class="javax.swing.JButton" binding="btCancel">
             <constraints>
-              <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Cancel"/>
             </properties>
           </component>
-          <component id="763d" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+          <component id="763d" class="javax.swing.JComboBox" binding="cbxGeneration">
             <constraints>
               <grid row="5" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <model>
-                <item value="wowo"/>
-                <item value="1"/>
-                <item value="2"/>
-                <item value="3"/>
-                <item value="4"/>
-              </model>
+              <model/>
             </properties>
+          </component>
+          <component id="b98a4" class="javax.swing.JComboBox" binding="cbxType">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
           </component>
         </children>
       </grid>
       <grid id="2dae" binding="QueryCol" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+        <margin top="10" left="10" bottom="10" right="10"/>
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="84" height="156"/>
+          </grid>
         </constraints>
         <properties>
           <enabled value="true"/>
@@ -113,40 +101,21 @@
         <children>
           <scrollpane id="514e9">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="249" height="128"/>
+              </grid>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <component id="785fe" class="javax.swing.JList" binding="list1" default-binding="true">
+              <component id="785fe" class="javax.swing.JList" binding="listQueryResult">
                 <constraints/>
                 <properties>
                   <dropMode value="USE_SELECTION"/>
                   <enabled value="true"/>
                   <layoutOrientation value="0"/>
-                  <model>
-                    <item value="1"/>
-                    <item value="2"/>
-                    <item value="3"/>
-                    <item value="4"/>
-                    <item value="5"/>
-                    <item value="6"/>
-                    <item value="7"/>
-                    <item value="8"/>
-                    <item value="9"/>
-                    <item value="10"/>
-                    <item value="11"/>
-                    <item value="12"/>
-                    <item value="13"/>
-                    <item value="14"/>
-                    <item value="15"/>
-                    <item value="16"/>
-                    <item value="17"/>
-                    <item value="18"/>
-                    <item value="19"/>
-                    <item value="20"/>
-                    <item value="21"/>
-                  </model>
+                  <model/>
+                  <opaque value="true"/>
                   <selectionMode value="0"/>
                 </properties>
               </component>
@@ -155,13 +124,34 @@
         </children>
       </grid>
       <grid id="31b2" binding="ResultCol" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+        <margin top="10" left="10" bottom="10" right="10"/>
         <constraints>
           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none" title="Pokemon Info"/>
-        <children/>
+        <children>
+          <tabbedpane id="7e0cc" binding="tabbedPane1" default-binding="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="200" height="200"/>
+              </grid>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="a9b25" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <tabbedpane title="wow"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+            </children>
+          </tabbedpane>
+        </children>
       </grid>
     </children>
   </grid>
