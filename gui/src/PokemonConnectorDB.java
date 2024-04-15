@@ -116,7 +116,8 @@ public class PokemonConnectorDB {
                     "JOIN types t ON pt.type_id = t.id " +
                     "JOIN pokemon_species ps ON p.species_id = ps.id " +
                     "JOIN generations g ON ps.generation_id = g.id " +
-                    "WHERE p.identifier LIKE ? AND t.identifier LIKE ? AND g.identifier LIKE ?";
+                    "WHERE p.identifier LIKE ? AND t.identifier LIKE ? AND g.identifier LIKE ?" +
+                    "ORDER BY name";
 
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, "%" + name + "%");

@@ -46,7 +46,7 @@ public class SearchPokemon extends JDialog{
                 super.mouseClicked(e);
                 PokemonQuery selectedValue = listQueryResult.getSelectedValue();
                 if (selectedValue == null) return;
-                Pokemon pokemon = connector.getPokemonById(selectedValue.id);
+//                Pokemon pokemon = connector.getPokemonById(selectedValue.id);
             }
         });
 
