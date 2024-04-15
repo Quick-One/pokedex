@@ -49,8 +49,14 @@ public class SignUp extends JDialog {
         } else if (!password.equals(confirmPassword)) {
             JOptionPane.showMessageDialog(null, "Passwords do not match!");
         } else {
-            JOptionPane.showMessageDialog(null, "Registration successful!");
-            dispose();
+            boolean userAddStatus = DatabaseConnector.checkSignUp(username, password);
+            if (!userAddStatus) {
+                JOptionPane.showMessageDialog(null, "Username already exists!");
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Registration successful!");
+                dispose();
+            }
         }
     }
 

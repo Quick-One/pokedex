@@ -16,6 +16,7 @@ public class Login extends JDialog{
         setContentPane(LoginPanel);
         pack();
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setMinimumSize(LoginPanel.getMinimumSize());
         setModal(true);
         setLocationRelativeTo(parent);
 

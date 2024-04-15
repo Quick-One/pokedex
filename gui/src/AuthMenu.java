@@ -25,7 +25,10 @@ public class AuthMenu extends JFrame{
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Login(AuthMenu.this);
+                Login loginDialogue = new Login(AuthMenu.this);
+                if (loginDialogue.user != null){
+                    dispose();
+                }
             }
         });
 
