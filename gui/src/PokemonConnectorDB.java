@@ -159,7 +159,7 @@ public class PokemonConnectorDB {
         // TODO - implement a function to get moves by pokemon id
         PreparedStatement preparedStatement = null;
         try {
-            String query = "SELECT m.id as id, m.identifier as name, m.power, m.pp, m.accuracy, m.priority, m.damage_class_id, t.identifier as type, mdc.identifier as damage_class " +
+            String query = "SELECT distinct m.id as id, m.identifier as name, m.power, m.pp, m.accuracy, m.priority, m.damage_class_id, t.identifier as type, mdc.identifier as damage_class " +
                     "FROM moves m " +
                     "JOIN pokemon_moves pm ON m.id = pm.move_id " +
                     "JOIN types t ON m.type_id = t.id " +
