@@ -8,7 +8,6 @@ public class Login extends JDialog{
     private JButton btnCancel;
     private JLabel LoginHeader;
     private JLabel Username;
-    User user = null;
 
     public Login(JFrame parent) {
         super(parent);
@@ -21,8 +20,8 @@ public class Login extends JDialog{
         setLocationRelativeTo(parent);
 
         btnLogin.addActionListener(e -> {
-            user = login();
-            if (user != null) {
+            login();
+            if (User.getInstance().isLoggedIn) {
                 dispose();
             }
         });
@@ -34,23 +33,19 @@ public class Login extends JDialog{
         setVisible(true);
     }
 
-    private User login() {
-        User user = null;
-
+    private void login() {
         String username = tfUsername.getText();
         String password = tfPassword.getText();
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields!");
-            return user;
         }
 
-        user = AuthConnectorDB.checkLogin(username, password);
-        if (user == null) {
+        boolean loginSucc = AuthConnectorDB.checkLogin(username, password);
+        if (!loginSucc) {
             JOptionPane.showMessageDialog(null, "Invalid username or password!");
         }
         else{
             JOptionPane.showMessageDialog(null, "Login successful!");
         }
-        return user;
     }
 }

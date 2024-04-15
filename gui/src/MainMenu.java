@@ -10,10 +10,9 @@ public class MainMenu extends  JFrame{
     private JButton btnDeleteRoster;
     private JButton btnShowRosters;
     private JLabel lblHeader2;
-    private User user;
 
-public MainMenu(User user) {
-        System.out.println("Hello" + user.first_name);
+public MainMenu() {
+        System.out.println("Hello" + User.getInstance().first_name);
         setTitle("Main Menu");
         setContentPane(MainMenuPanel);
         pack();

@@ -57,7 +57,6 @@ public class AuthConnectorDB {
             // create a statement
             preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             for (int i = 0; i < args.length; i++) {
-                System.out.println(args[i]);
                 preparedStatement.setObject(i + 1, args[i]);
             }
 
@@ -82,25 +81,29 @@ public class AuthConnectorDB {
         return rs;
     }
 
-    public static User checkLogin(String username, String password) {
+    public static boolean checkLogin(String username, String password) {
         // TODO - implement a check login method
         // check is username already exists or not
         // if it does create a user object and return it
         // user object should have a username and a user id
 //        user = new User(username, 1);
-
-        User user = null;
         try (CachedRowSet resultSet = executeUserDBCommand(
                 "SELECT * FROM auth JOIN user ON auth.user_id = user.user_id WHERE username = ? AND password = ?;",
                 username, password)) {
             if (resultSet.next()) {
-                user = new User(resultSet.getInt(1),username, resultSet.getString("first_name"), resultSet.getString("last_name"));
+                User user = User.getInstance();
+                user.setUserId(resultSet.getInt(1));
+                user.setUsername(username);
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("last_name"));
+                user.setIsLoggedIn(true);
+                System.out.println("DB " + User.getInstance().isLoggedIn);
+                return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return user;
+        return false;
     }
 
     private static void addNewUser(String username, String password, String first_name, String last_name) {
@@ -154,23 +157,23 @@ public class AuthConnectorDB {
 
     public static void main(String[] args) throws SQLException{
 
-        // test the connection
-        checkConnection();
-
-        // test the login
-        User user = checkLogin("admin", "admin");
-        if (user != null) {
-            System.out.println("Login successful!");
-        } else {
-            System.out.println("Login failed!");
-        }
-
-        // test the sign up
-        boolean userAddStatus = checkSignUp("admin", "admin", "admin", "admin");
-        if (!userAddStatus) {
-            System.out.println("Username already exists!");
-        } else {
-            System.out.println("Registration successful!");
-        }
+//        // test the connection
+//        checkConnection();
+//
+//        // test the login
+//        User user = checkLogin("admin", "admin");
+//        if (user != null) {
+//            System.out.println("Login successful!");
+//        } else {
+//            System.out.println("Login failed!");
+//        }
+//
+//        // test the sign up
+//        boolean userAddStatus = checkSignUp("admin", "admin", "admin", "admin");
+//        if (!userAddStatus) {
+//            System.out.println("Username already exists!");
+//        } else {
+//            System.out.println("Registration successful!");
+//        }
     }
 }
