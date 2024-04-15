@@ -11,5 +11,4 @@ public class PokemonQuery {
     public String toString() {
         return name;
     }
-
 }

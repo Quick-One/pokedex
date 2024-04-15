@@ -74,6 +74,12 @@ public class PokemonConnectorDB {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -91,6 +97,12 @@ public class PokemonConnectorDB {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -134,6 +146,120 @@ public class PokemonConnectorDB {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Move[] getMovesByPokemonId(int id) {
+        // TODO - implement a function to get moves by pokemon id
+        PreparedStatement preparedStatement = null;
+        try {
+            String query = "SELECT m.id as id, m.identifier as name, m.power, m.pp, m.accuracy, m.priority, m.damage_class_id, t.identifier as type, mdc.identifier as damage_class " +
+                    "FROM moves m " +
+                    "JOIN pokemon_moves pm ON m.id = pm.move_id " +
+                    "JOIN types t ON m.type_id = t.id " +
+                    "JOIN move_damage_classes mdc ON m.damage_class_id = mdc.id " +
+                    "WHERE pm.pokemon_id = ?";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            List<Move> moves = new ArrayList<>();
+            while (rs.next()) {
+                moves.add(new Move(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("type"),
+                        rs.getInt("power"),
+                        rs.getInt("pp"),
+                        rs.getInt("accuracy"),
+                        rs.getInt("priority"),
+                        rs.getString("damage_class")
+                ));
+            }
+            return moves.toArray(new Move[0]);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Pokemon getPokemonById(int id) {
+        // TODO - implement a function to get a pokemon by id
+        PreparedStatement preparedStatement1 = null;
+        PreparedStatement preparedStatement2 = null;
+        try {
+            String query = "SELECT p.id as id, p.identifier as name,  p.height, p.weight, p.base_experience, " +
+                    "ps.capture_rate, ps.is_legendary, ps.is_mythical, " +
+                    "g.identifier as generation," +
+                    "c.identifier as color, h.identifier as habitat, s.identifier as shape " +
+                    "FROM pokemon p " +
+                    "JOIN pokemon_species ps ON p.species_id = ps.id " +
+                    "JOIN generations g ON ps.generation_id = g.id " +
+                    "JOIN pokemon_colors c ON ps.color_id = c.id " +
+                    "JOIN pokemon_habitats h ON ps.habitat_id = h.id " +
+                    "JOIN pokemon_shapes s ON ps.shape_id = s.id " +
+                    "JOIN pokemon_types pt ON p.id = pt.pokemon_id " +
+                    "WHERE p.id = ?";
+
+            preparedStatement1 = connection.prepareStatement(query);
+            preparedStatement1.setInt(1, id);
+            ResultSet rs1 = preparedStatement1.executeQuery();
+
+            preparedStatement2 = connection.prepareStatement(
+                    "SELECT DISTINCT t.identifier as type FROM types t JOIN pokemon_types pt ON t.id = pt.type_id WHERE pt.pokemon_id = ?");
+            preparedStatement2.setInt(1, id);
+            ResultSet rs2 = preparedStatement2.executeQuery();
+
+            List<String> types = new ArrayList<>();
+            while (rs2.next()) {
+                types.add(rs2.getString("type"));
+            }
+
+            Move[] moves = getMovesByPokemonId(id);
+
+            if (rs1.next()) {
+                return new Pokemon(
+                        rs1.getInt("id"),
+                        rs1.getString("name"),
+                        rs1.getString("generation"),
+                        rs1.getInt("height"),
+                        rs1.getInt("weight"),
+                        rs1.getInt("base_experience"),
+                        rs1.getString("color"),
+                        rs1.getString("habitat"),
+                        rs1.getString("shape"),
+                        types.toArray(new String[0]),
+                        rs1.getInt("capture_rate"),
+                        rs1.getInt("is_legendary"),
+                        rs1.getInt("is_mythical"),
+                        moves
+                );
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                preparedStatement1.close();
+                preparedStatement2.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -160,5 +286,13 @@ public class PokemonConnectorDB {
         for (PokemonQuery pokemonQuery : pokemonQueries) {
             System.out.println(pokemonQuery.name + " " + pokemonQuery.id);
         }
+
+        Move[] moves = pokemonConnectorDB.getMovesByPokemonId(25);
+        for (Move move : moves) {
+            System.out.println(move.name + " " + move.type + " " + move.power + " " + move.pp + " " + move.accuracy + " " + move.priority + " " + move.damageClass);
+        }
+
+        Pokemon pokemon = pokemonConnectorDB.getPokemonById(25);
+        System.out.println(pokemon.name + " " + pokemon.generation + " " + pokemon.height + " " + pokemon.weight + " " + pokemon.baseExperience + " " + pokemon.color + " " + pokemon.habitat + " " + pokemon.shape + " " + pokemon.captureRate + " " + pokemon.isLegendary + " " + pokemon.isMythical);
     }
 }
