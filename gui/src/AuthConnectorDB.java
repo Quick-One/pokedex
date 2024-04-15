@@ -45,9 +45,10 @@ public class AuthConnectorDB {
         // the input type should be whatever there was in the video
         PreparedStatement preparedStatement = null;
         CachedRowSet rs = null;
+        Connection connection = null;
 
         try {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     "jdbc:mysql://%s:%s/%s".formatted(DB_HOST, DB_PORT, DB_NAME),
                     DB_USER,
                     DB_PASSWORD
@@ -74,13 +75,8 @@ public class AuthConnectorDB {
             e.printStackTrace();
         } finally {
             // close the connection
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            try {connection.close();} catch (Exception e) {}
+            try {preparedStatement.close();} catch (Exception e) {}
         }
 
         return rs;
