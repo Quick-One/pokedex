@@ -1,6 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 // Test connection to database
 public class DatabaseConnector {
@@ -38,28 +36,86 @@ public class DatabaseConnector {
     }
 
     // TODO - implement an execute command method
-    private static void executeCommand(String command) {
+    private static ResultSet executeUserDBCommand(String sql, String... args) {
         // THE RETURN TYPE should be a result set
         // the input type should be whatever there was in the video
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://%s:%s/%s".formatted(DB_HOST, DB_PORT, DB_NAME),
+                    DB_USER,
+                    DB_PASSWORD
+            );
+
+            // create a statement
+            preparedStatement = connection.prepareStatement(sql);
+            for (int i = 0; i < args.length; i++) {
+                preparedStatement.setString(i + 1, args[i]);
+            }
+
+            // execute the command
+            resultSet = preparedStatement.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // close the connection
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return resultSet;
     }
 
     public static User checkLogin(String username, String password) {
         // TODO - implement a check login method
-        User user = null;
         // check is username already exists or not
         // if it does create a user object and return it
         // user object should have a username and a user id
 //        user = new User(username, 1);
+
+        User user = null;
+        try (ResultSet resultSet = executeUserDBCommand(
+                "SELECT * FROM auth JOIN user ON auth.user_id = user.user_id WHERE username = ? AND password = ?;",
+                username, password)) {
+            if (resultSet.next()) {
+                user = new User(resultSet.getInt("id"),username, resultSet.getString("first_name"), resultSet.getString("last_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return user;
     }
 
-    private static void addNewUser(String username, String password) {
+    private static void addNewUser(String username, String password, String first_name, String last_name) {
         // TODO - implement an add new user method
+        // add a new user to the database
+        try(ResultSet resultSet = executeUserDBCommand(
+                "INSERT INTO user (username, first_name, last_name) VALUES (?);",
+                username, first_name, last_name)) {
+            if (resultSet.next()) {
+                System.out.println("User added successfully");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static boolean checkSignUp(String username, String password) {
         // TODO - implement a check sign up method
         // THIS FUNCTION CALLS THE ADD NEW USER METHOD
         return true;
+    }
+
+    public static void main(String[] args) {
+        checkConnection();
     }
 }
