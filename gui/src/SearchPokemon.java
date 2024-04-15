@@ -108,18 +108,19 @@ public class SearchPokemon extends JDialog{
     }
 
     private void populateTable(Pokemon pokemon){
-        tableInfo.setValueAt(pokemon.getName(), 0, 1);
-        tableInfo.setValueAt(pokemon.getID(), 1, 1);
-        tableInfo.setValueAt(pokemon.getGeneration(), 2, 1);
-        tableInfo.setValueAt(pokemon.getHeight(), 3, 1);
-        tableInfo.setValueAt(pokemon.getWeight(), 4, 1);
-        tableInfo.setValueAt(pokemon.getBaseExperience(), 5, 1);
-        tableInfo.setValueAt(pokemon.getColor(), 6, 1);
-        tableInfo.setValueAt(pokemon.getHabitat(), 7, 1);
-        tableInfo.setValueAt(pokemon.getShape(), 8, 1);
+        java.util.function.Function<Object, String> nullToNA = (Object value) -> value == null ? "N/A" : value.toString();
+        tableInfo.setValueAt(pokemon.name, 0, 1);
+        tableInfo.setValueAt(pokemon.id, 1, 1);
+        tableInfo.setValueAt(pokemon.generation, 2, 1);
+        tableInfo.setValueAt(pokemon.height, 3, 1);
+        tableInfo.setValueAt(pokemon.weight, 4, 1);
+        tableInfo.setValueAt(pokemon.baseExperience, 5, 1);
+        tableInfo.setValueAt(pokemon.color, 6, 1);
+        tableInfo.setValueAt(pokemon.habitat, 7, 1);
+        tableInfo.setValueAt(pokemon.shape, 8, 1);
         tableInfo.setValueAt(String.join(", ", pokemon.types), 9, 1);
-        tableInfo.setValueAt(pokemon.getCaptureRate(), 10, 1);
-        tableInfo.setValueAt(pokemon.getIsLegendary(), 11, 1);
-        tableInfo.setValueAt(pokemon.getIsMythical(), 12, 1);
+        tableInfo.setValueAt(pokemon.captureRate, 10, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.isLegendary), 11, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.isMythical), 12, 1);
     }
 }
