@@ -207,12 +207,12 @@ public class PokemonConnectorDB {
                     "g.identifier as generation," +
                     "c.identifier as color, h.identifier as habitat, s.identifier as shape " +
                     "FROM pokemon p " +
-                    "JOIN pokemon_species ps ON p.species_id = ps.id " +
-                    "JOIN generations g ON ps.generation_id = g.id " +
-                    "JOIN pokemon_colors c ON ps.color_id = c.id " +
-                    "JOIN pokemon_habitats h ON ps.habitat_id = h.id " +
-                    "JOIN pokemon_shapes s ON ps.shape_id = s.id " +
-                    "JOIN pokemon_types pt ON p.id = pt.pokemon_id " +
+                    "LEFT JOIN pokemon_species ps ON p.species_id = ps.id " +
+                    "LEFT JOIN generations g ON ps.generation_id = g.id " +
+                    "LEFT JOIN pokemon_colors c ON ps.color_id = c.id " +
+                    "LEFT JOIN pokemon_habitats h ON ps.habitat_id = h.id " +
+                    "LEFT JOIN pokemon_shapes s ON ps.shape_id = s.id " +
+                    "LEFT JOIN pokemon_types pt ON p.id = pt.pokemon_id " +
                     "WHERE p.id = ?";
 
             preparedStatement1 = connection.prepareStatement(query);
