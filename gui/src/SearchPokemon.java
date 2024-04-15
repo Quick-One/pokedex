@@ -18,8 +18,20 @@ public class SearchPokemon {
     private JPanel QueryCol;
     private JPanel ResultCol;
     private JList list1;
+    private JComboBox comboBox1;
+    private PokemonConnectorDB connector;
 
     public SearchPokemon() {
+        // print the items of the list list1
+//        var x = list1.getModel();
+//        for (int i = 0; i < x.getSize(); i++) {
+//            System.out.println(x.getElementAt(i));
+//        }
+        String[] types = {"Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"};
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(types);
+        comboBox1.setModel(model);
+
+
 
         list1.addMouseListener(new MouseAdapter() {
             @Override
@@ -42,5 +54,9 @@ public class SearchPokemon {
 
 
         frame.setVisible(true);
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }
