@@ -50,12 +50,8 @@ public class SignUp extends JDialog {
             JOptionPane.showMessageDialog(null, "Passwords do not match!");
         } else {
             JOptionPane.showMessageDialog(null, "Registration successful!");
+            dispose();
         }
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-
     }
 
     public static void main(String[] args) {

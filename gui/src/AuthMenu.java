@@ -25,7 +25,7 @@ public class AuthMenu extends JFrame{
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                new Login(AuthMenu.this);
+                new Login(AuthMenu.this);
             }
         });
 

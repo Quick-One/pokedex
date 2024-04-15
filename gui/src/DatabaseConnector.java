@@ -3,7 +3,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 // Test connection to database
-public class BasicConnection {
+public class DatabaseConnector {
     private static final String DB_USER = System.getenv("DB_USER");
     private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
     private static final String DB_HOST = System.getenv("DB_HOST");
@@ -43,9 +43,14 @@ public class BasicConnection {
         // the input type should be whatever there was in the video
     }
 
-    public static boolean checkLogin(String username, String password) {
+    public static User checkLogin(String username, String password) {
         // TODO - implement a check login method
-        return true;
+        User user = null;
+        // check is username already exists or not
+        // if it does create a user object and return it
+        // user object should have a username and a user id
+//        user = new User(username, 1);
+        return user;
     }
 
     private static void addNewUser(String username, String password) {
