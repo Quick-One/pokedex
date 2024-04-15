@@ -123,12 +123,12 @@ public class PokemonConnectorDB {
 
         PreparedStatement preparedStatement = null;
         try {
-            String query = "SELECT p.id as id, p.identifier as name, t.identifier as type, g.identifier as gen FROM pokemon p " +
+            String query = "SELECT DISTINCT p.id as id, p.identifier as name FROM pokemon p " +
                     "JOIN pokemon_types pt ON p.id = pt.pokemon_id " +
                     "JOIN types t ON pt.type_id = t.id " +
                     "JOIN pokemon_species ps ON p.species_id = ps.id " +
                     "JOIN generations g ON ps.generation_id = g.id " +
-                    "WHERE p.identifier LIKE ? AND t.identifier LIKE ? AND g.identifier LIKE ?" +
+                    "WHERE p.identifier LIKE ? AND t.identifier LIKE ? AND g.identifier LIKE ? " +
                     "ORDER BY name";
 
             preparedStatement = connection.prepareStatement(query);
@@ -159,7 +159,7 @@ public class PokemonConnectorDB {
         // TODO - implement a function to get moves by pokemon id
         PreparedStatement preparedStatement = null;
         try {
-            String query = "SELECT distinct m.id as id, m.identifier as name, m.power, m.pp, m.accuracy, m.priority, m.damage_class_id, t.identifier as type, mdc.identifier as damage_class " +
+            String query = "SELECT DISTINCT m.id as id, m.identifier as name, m.power, m.pp, m.accuracy, m.priority, m.damage_class_id, t.identifier as type, mdc.identifier as damage_class " +
                     "FROM moves m " +
                     "JOIN pokemon_moves pm ON m.id = pm.move_id " +
                     "JOIN types t ON m.type_id = t.id " +
