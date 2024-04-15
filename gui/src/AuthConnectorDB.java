@@ -97,7 +97,6 @@ public class AuthConnectorDB {
                 user.setFirstName(resultSet.getString("first_name"));
                 user.setLastName(resultSet.getString("last_name"));
                 user.setIsLoggedIn(true);
-                System.out.println("DB " + User.getInstance().isLoggedIn);
                 return true;
             }
         } catch (SQLException e) {

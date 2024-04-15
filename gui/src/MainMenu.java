@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainMenu extends  JFrame{
     private JButton btnSearchPokemon;
@@ -12,17 +14,25 @@ public class MainMenu extends  JFrame{
     private JLabel lblHeader2;
 
 public MainMenu() {
-        System.out.println("Hello" + User.getInstance().first_name);
-        setTitle("Main Menu");
-        setContentPane(MainMenuPanel);
-        pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+    setTitle("Main Menu");
+    setContentPane(MainMenuPanel);
+    pack();
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setLocationRelativeTo(null);
 
-        setVisible(true);
-    }
+    btnSearchPokemon.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new SearchPokemon(MainMenu.this);
+        }
+    });
+    setVisible(true);
+}
 
     public static void main(String[] args) {
-//        new MainMenu();
+        User.getInstance().setFirstName("test");
+
+
+        new MainMenu();
     }
 }
