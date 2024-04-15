@@ -1,3 +1,6 @@
+import javax.sql.RowSet;
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetProvider;
 import java.sql.*;
 
 // Test connection to database
@@ -36,11 +39,13 @@ public class DatabaseConnector {
     }
 
     // TODO - implement an execute command method
-    private static ResultSet executeUserDBCommand(String sql, Object... args) {
+    // type 0 - select
+    // type 1 - insert
+    private static CachedRowSet executeUserDBCommand(String sql, Object... args) {
         // THE RETURN TYPE should be a result set
         // the input type should be whatever there was in the video
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        CachedRowSet rs = null;
 
         try {
             Connection connection = DriverManager.getConnection(
@@ -50,13 +55,21 @@ public class DatabaseConnector {
             );
 
             // create a statement
-            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             for (int i = 0; i < args.length; i++) {
+                System.out.println(args[i]);
                 preparedStatement.setObject(i + 1, args[i]);
             }
 
-            // execute the command
-            resultSet = preparedStatement.executeQuery();
+            if (preparedStatement.execute()) {
+                ResultSet resultSet = preparedStatement.getResultSet();
+                // convert the result set to a row set
+                rs = RowSetProvider.newFactory().createCachedRowSet();
+                rs.populate(resultSet);
+            } else {
+                rs = RowSetProvider.newFactory().createCachedRowSet();
+                rs.populate(preparedStatement.getGeneratedKeys());
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,7 +84,7 @@ public class DatabaseConnector {
             }
         }
 
-        return resultSet;
+        return rs;
     }
 
     public static User checkLogin(String username, String password) {
@@ -82,11 +95,11 @@ public class DatabaseConnector {
 //        user = new User(username, 1);
 
         User user = null;
-        try (ResultSet resultSet = executeUserDBCommand(
+        try (CachedRowSet resultSet = executeUserDBCommand(
                 "SELECT * FROM auth JOIN user ON auth.user_id = user.user_id WHERE username = ? AND password = ?;",
                 username, password)) {
             if (resultSet.next()) {
-                user = new User(resultSet.getInt("id"),username, resultSet.getString("first_name"), resultSet.getString("last_name"));
+                user = new User(resultSet.getInt(1),username, resultSet.getString("first_name"), resultSet.getString("last_name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,8 +113,8 @@ public class DatabaseConnector {
         // add a new user to the database
 
         int user_id = -1;
-        try(ResultSet resultSet = executeUserDBCommand(
-                "INSERT INTO user (username, first_name, last_name) VALUES (?);",
+        try(CachedRowSet resultSet = executeUserDBCommand(
+                "INSERT INTO user (username, first_name, last_name) VALUES (?, ?, ?);",
                 username, first_name, last_name)) {
             if (resultSet.next()) {
                 user_id = resultSet.getInt(1);
@@ -114,7 +127,7 @@ public class DatabaseConnector {
         if (user_id == -1) {
             return;
         }
-        try(ResultSet resultSet = executeUserDBCommand(
+        try(CachedRowSet resultSet = executeUserDBCommand(
                 "INSERT INTO auth (user_id, password) VALUES (?, ?);",
                 user_id, password)) {
             if (resultSet.next()) {
@@ -130,7 +143,7 @@ public class DatabaseConnector {
         // returns false if the username already exists
         // returns true if the username does not exist
 
-        try(ResultSet resultSet = executeUserDBCommand(
+        try(CachedRowSet resultSet = executeUserDBCommand(
                 "SELECT * FROM user WHERE username = ?;",
                 username)) {
             if (resultSet.next()) {
@@ -144,7 +157,25 @@ public class DatabaseConnector {
         return true;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException{
+
+        // test the connection
         checkConnection();
+
+        // test the login
+        User user = checkLogin("admin", "admin");
+        if (user != null) {
+            System.out.println("Login successful!");
+        } else {
+            System.out.println("Login failed!");
+        }
+
+        // test the sign up
+        boolean userAddStatus = checkSignUp("admin", "admin", "admin", "admin");
+        if (!userAddStatus) {
+            System.out.println("Username already exists!");
+        } else {
+            System.out.println("Registration successful!");
+        }
     }
 }
