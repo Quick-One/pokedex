@@ -44,7 +44,7 @@ public class Login extends JDialog{
             return user;
         }
 
-        user = DatabaseConnector.checkLogin(username, password);
+        user = AuthConnectorDB.checkLogin(username, password);
         if (user == null) {
             JOptionPane.showMessageDialog(null, "Invalid username or password!");
         }

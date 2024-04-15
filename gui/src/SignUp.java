@@ -54,7 +54,7 @@ public class SignUp extends JDialog {
         } else if (!password.equals(confirmPassword)) {
             JOptionPane.showMessageDialog(null, "Passwords do not match!");
         } else {
-            boolean userAddStatus = DatabaseConnector.checkSignUp(username, password, firstName, lastName);
+            boolean userAddStatus = AuthConnectorDB.checkSignUp(username, password, firstName, lastName);
             if (!userAddStatus) {
                 JOptionPane.showMessageDialog(null, "Username already exists!");
             }

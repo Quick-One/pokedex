@@ -1,10 +1,9 @@
-import javax.sql.RowSet;
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
 import java.sql.*;
 
 // Test connection to database
-public class DatabaseConnector {
+public class AuthConnectorDB {
     private static final String DB_USER = System.getenv("DB_USER");
     private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
     private static final String DB_HOST = System.getenv("DB_HOST");
