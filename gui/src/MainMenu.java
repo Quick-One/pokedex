@@ -1,13 +1,28 @@
 import javax.swing.*;
 
-public class MainMenu {
-    private JButton searchPokemonButton;
-    private JButton addButton;
-    private JButton button3;
-    private JButton button4;
-    private JLabel headerText;
+public class MainMenu extends  JFrame{
+    private JButton btnSearchPokemon;
+    private JButton btnAddRosters;
+    private JLabel lblMainHeader;
     private JPanel MainMenuPanel;
-    private JLabel salutationText;
-    private JButton updateButton;
-    private JButton deleteButton;
+    private JLabel lblHeader1;
+    private JButton btnUpdateRoster;
+    private JButton btnDeleteRoster;
+    private JButton btnSearchMoves;
+    private JButton btnShowRosters;
+    private JLabel lblHeader2;
+
+public MainMenu() {
+        setTitle("Main Menu");
+        setContentPane(MainMenuPanel);
+        pack();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new MainMenu();
+    }
 }
