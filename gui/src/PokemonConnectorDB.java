@@ -102,11 +102,11 @@ public class PokemonConnectorDB {
         }
 
         if (type == null) {
-            type = "";
+            type = "%%";
         }
 
         if (generation == null) {
-            generation = "";
+            generation = "%%";
         }
 
         PreparedStatement preparedStatement = null;
@@ -121,8 +121,8 @@ public class PokemonConnectorDB {
 
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, "%" + name + "%");
-            preparedStatement.setString(2, "%" + type + "%");
-            preparedStatement.setString(3, "%" + generation + "%");
+            preparedStatement.setString(2,  type);
+            preparedStatement.setString(3, generation);
 
             ResultSet rs = preparedStatement.executeQuery();
             List<PokemonQuery> pokemonQueries = new ArrayList<>();
