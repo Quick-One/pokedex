@@ -2,9 +2,9 @@ public class Pokemon {
     public int id;
     public String name;
     public String generation;
-    public int height;
-    public int weight;
-    public int baseExperience;
+    public Integer height;
+    public Integer weight;
+    public Integer baseExperience;
     public String color;
     public String habitat;
     public String shape;
@@ -31,5 +31,95 @@ public class Pokemon {
         this.isLegendary = isLegendary;
         this.isMythical = isMythical;
         this.moves = moves;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + id + ")";
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getGeneration() {
+        if (generation == null) {
+            return "N/A";
+        }
+        return generation;
+    }
+
+    public Integer getHeight() {
+        if (height == null){
+            return null;
+        }
+        return height;
+    }
+
+    public Integer getWeight() {
+        if (weight == null){
+            return null;
+        }
+        return weight;
+    }
+
+    public Integer getBaseExperience() {
+        if (baseExperience == null){
+            return null;
+        }
+        return baseExperience;
+    }
+
+    public String getColor() {
+        if (color == null){
+            return "N/A";
+        }
+        return color;
+    }
+
+    public String getHabitat() {
+        if (habitat == null){
+            return "N/A";
+        }
+        return habitat;
+    }
+
+    public String getShape() {
+        if (shape == null){
+            return "N/A";
+        }
+        return shape;
+    }
+
+    public String[] getTypes() {
+        if (types == null){
+            return new String[0];
+        }
+        return types;
+    }
+
+    public Integer getCaptureRate() {
+        if (captureRate == null){
+            return null;
+        }
+        return captureRate;
+    }
+
+    public Integer getIsLegendary() {
+        if (isLegendary == null){
+            return null;
+        }
+        return isLegendary;
+    }
+
+    public Integer getIsMythical() {
+        if (isMythical == null){
+            return null;
+        }
+        return isMythical;
     }
 }

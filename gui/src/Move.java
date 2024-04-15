@@ -18,4 +18,9 @@ public class Move {
         this.priority = priority;
         this.damageClass = damageClass;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
