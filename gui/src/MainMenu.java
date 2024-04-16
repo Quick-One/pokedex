@@ -38,10 +38,7 @@ public MainMenu() {
     btnShowRosters.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            SelectRoster selectRoster = new SelectRoster();
-            if (selectRoster.selectedRoster != null) {
-//                new ShowRoster(MainMenu.this, selectRoster.selectedRoster);
-            }
+            new ShowRoster(MainMenu.this);
         }
     });
 }

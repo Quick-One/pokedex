@@ -51,12 +51,8 @@ public class SearchPokemon extends JDialog{
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 PokemonQuery selectedValue = listQueryResult.getSelectedValue();
-                System.out.println(selectedValue);
-                System.out.println(selectedValue.id);
                 if (selectedValue == null) return;
                 Pokemon pokemon = connector.getPokemonById(selectedValue.id);
-                System.out.println(pokemon.habitat);
-                System.out.println(pokemon);
                 listMove.setListData(pokemon.moves);
                 populateTable(pokemon);
             }
@@ -76,8 +72,6 @@ public class SearchPokemon extends JDialog{
                 PokemonQuery[] res = connector.searchPokemon(tfName.getText(), (String) cbxType.getSelectedItem(), (String) cbxGeneration.getSelectedItem());
                 listQueryResult.setListData(res);
             }
-        });
-        listQueryResult.addMouseListener(new MouseAdapter() {
         });
     }
 
