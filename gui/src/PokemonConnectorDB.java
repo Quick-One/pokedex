@@ -223,7 +223,9 @@ public class PokemonConnectorDB {
                 if (rs.getString("evolves_to2") != null) {
                     evolution.add(rs.getString("evolves_to2"));
                 }
-                evolutions.add(evolution.toArray(new String[0]));
+                if (!evolution.isEmpty()) {
+                    evolutions.add(evolution.toArray(new String[0]));
+                }
             }
 
             return evolutions.toArray(new String[0][0]);
