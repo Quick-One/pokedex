@@ -165,7 +165,7 @@ CREATE TABLE roster_user (
     roster_name VARCHAR(255),
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
-    CONSTRAINT unique_roster_name_per_user UNIQUE (roster_name, roster_id)
+    CONSTRAINT unique_roster_name_per_user UNIQUE (user_id, roster_name)
 );
 
 CREATE TABLE roster (
