@@ -1,8 +1,5 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class SearchPokemon extends JDialog {
     private JPanel MainPanel;
@@ -24,6 +21,8 @@ public class SearchPokemon extends JDialog {
     private JPanel tabMoves;
     private JList<Move> listMove;
     private JButton addPokemonToRosterButton;
+    private JTextPane txtEvolution;
+    private JPanel evolutionPanel;
 
     public SearchPokemon(JFrame parent) {
         super(parent);
@@ -58,6 +57,7 @@ public class SearchPokemon extends JDialog {
                 Pokemon pokemon = connector.getPokemonById(selectedValue.id);
                 listMove.setListData(pokemon.moves);
                 populateTable(pokemon);
+                txtEvolution.setText(pokemon.getEvolutions());
             }
         });
 
@@ -83,6 +83,13 @@ public class SearchPokemon extends JDialog {
                 if (selectedValue == null) return;
                 Pokemon pokemon = connector.getPokemonById(selectedValue.id);
                 new AddToRoster(parent, pokemon);
+            }
+        });
+
+        tfName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btSearch.doClick();
             }
         });
         setVisible(true);
@@ -113,7 +120,6 @@ public class SearchPokemon extends JDialog {
                 {"Is Legendary", ""},
                 {"Is Mythical", ""},
                 {"Evolves From", ""},
-                {"Evolutions", ""}
         };
         tableInfo = new JTable(data, columnNames);
     }
@@ -134,6 +140,5 @@ public class SearchPokemon extends JDialog {
         tableInfo.setValueAt(nullToNA.apply(pokemon.getIsLegendary()), 11, 1);
         tableInfo.setValueAt(nullToNA.apply(pokemon.getIsMythical()), 12, 1);
         tableInfo.setValueAt(nullToNA.apply(pokemon.evolvesFrom), 13, 1);
-        tableInfo.setValueAt(pokemon.getEvolutions(), 14, 1);
     }
 }
