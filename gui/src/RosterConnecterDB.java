@@ -9,6 +9,30 @@ public class RosterConnecterDB {
     private static final String DB_PORT = System.getenv("DB_PORT");
     private static final String DB_NAME = System.getenv("DB_NAME");
 
+    private Connection connection;
+
+    private Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection(
+                        "jdbc:mysql://%s:%s/%s".formatted(DB_HOST, DB_PORT, DB_NAME),
+                        DB_USER,
+                        DB_PASSWORD
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
+    }
+
+    public RosterConnecterDB() {
+        if (!checkConnection()) {
+            System.exit(1);
+        }
+        this.connection = getConnection();
+    }
+
     public static boolean checkConnection(){
         try {
             // create a connection to the database
