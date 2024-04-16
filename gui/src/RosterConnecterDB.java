@@ -118,13 +118,13 @@ public class RosterConnecterDB {
         return null;
     }
 
-    public Roster getRosterById(int id) {
+    public Roster getRosterById(RosterQuery rq) {
         // TODO - implement getting a roster by id
         PreparedStatement ps = null;
         Roster roster = null;
         try {
             ps = connection.prepareStatement("SELECT r.roster_id as rid, r.pokemon_id FROM roster_user ru JOIN roster r ON ru.roster_id = r.roster_id WHERE r.roster_id = ?");
-            ps.setInt(1, id);
+            ps.setInt(1, rq.id);
 
             ResultSet rs = ps.executeQuery();
             List<Pokemon> pokemon = new ArrayList<>();
@@ -134,13 +134,13 @@ public class RosterConnecterDB {
 
             for (Pokemon p : pokemon) {
                 try {
-                    p.moves = getMovesInRoster(id, p.id);
+                    p.moves = getMovesInRoster(rq.id, p.id);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
-            roster = new Roster(id, "roster name", pokemon.toArray(new Pokemon[0]));
+            roster = new Roster(rq.id, rq.name, pokemon.toArray(new Pokemon[0]));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -242,7 +242,12 @@ public class RosterConnecterDB {
     }
 
     public static void main(String[] args) {
+//        User.getInstance()
+
         RosterConnecterDB rcd = new RosterConnecterDB();
+
+        rcd.addRoster("roster name");
+
         RosterQuery[] rosters = rcd.getAllRosters();
         for (RosterQuery roster : rosters) {
             System.out.println(roster);
