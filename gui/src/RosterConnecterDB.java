@@ -61,7 +61,23 @@ public class RosterConnecterDB {
 
     public RosterQuery[] getAllRosters() {
         // TODO - implement gettings all rosters for the user
-        return null;
+        User currentUser = User.getInstance();
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("SELECT * FROM roster_user WHERE user_id = ?");
+//            ps.setInt(1, currentUser.);
+            ResultSet rs = ps.executeQuery();
+            CachedRowSet crs = RowSetProvider.newFactory().createCachedRowSet();
+            crs.populate(rs);
+            RosterQuery[] rosters = new RosterQuery[crs.size()];
+            while (crs.next()) {
+                rosters[crs.getRow() - 1] = new RosterQuery(crs.getString("name"), crs.getInt("id"));
+            }
+            return rosters;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Roster getRosterById(int id) {
@@ -69,8 +85,9 @@ public class RosterConnecterDB {
         return null;
     }
 
-    public void addRoster(String name) {
+    public Boolean addRoster(String name) {
         // TODO - implement adding a roster for the user
+        return null;
     }
 
     public Boolean addPokemonToRoster(RosterQuery rq, Pokemon p, Move[] moves) {
