@@ -111,7 +111,9 @@ public class SearchPokemon extends JDialog {
                 {"Types", ""},
                 {"Capture Rate", ""},
                 {"Is Legendary", ""},
-                {"Is Mythical", ""}
+                {"Is Mythical", ""},
+                {"Evolves From", ""},
+                {"Evolutions", ""}
         };
         tableInfo = new JTable(data, columnNames);
     }
@@ -131,5 +133,7 @@ public class SearchPokemon extends JDialog {
         tableInfo.setValueAt(nullToNA.apply(pokemon.captureRate), 10, 1);
         tableInfo.setValueAt(nullToNA.apply(pokemon.getIsLegendary()), 11, 1);
         tableInfo.setValueAt(nullToNA.apply(pokemon.getIsMythical()), 12, 1);
+        tableInfo.setValueAt(nullToNA.apply(pokemon.evolvesFrom), 13, 1);
+        tableInfo.setValueAt(pokemon.getEvolutions(), 14, 1);
     }
 }

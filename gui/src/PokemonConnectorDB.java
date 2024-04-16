@@ -198,17 +198,59 @@ public class PokemonConnectorDB {
         }
     }
 
+    public String[][] getEvolutions(int poke_id) {
+        PreparedStatement preparedStatement = null;
+        try {
+            String query = "SELECT pokemon.id as id, pokemon.identifier as name, ps2.identifier as evolves_to1, ps3.identifier as evolves_to2 " +
+                    "FROM pokemon " +
+                    "JOIN pokemon_species ps ON pokemon.species_id = ps.id " +
+                    "LEFT JOIN pokemon_species ps2 ON ps2.evolves_from_species_id = ps.id " +
+                    "LEFT JOIN pokemon_species ps3 ON ps2.id = ps3.evolves_from_species_id " +
+                    "WHERE pokemon.id = ?";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, poke_id);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            List<String[]> evolutions = new ArrayList<>();
+
+            while (rs.next()) {
+                List<String> evolution = new ArrayList<>();
+                if (rs.getString("evolves_to1") != null) {
+                    evolution.add(rs.getString("evolves_to1"));
+                }
+
+                if (rs.getString("evolves_to2") != null) {
+                    evolution.add(rs.getString("evolves_to2"));
+                }
+                evolutions.add(evolution.toArray(new String[0]));
+            }
+
+            return evolutions.toArray(new String[0][0]);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     public Pokemon getPokemonById(int id) {
         // TODO - implement a function to get a pokemon by id
         PreparedStatement preparedStatement1 = null;
         PreparedStatement preparedStatement2 = null;
         try {
             String query = "SELECT p.id as id, p.identifier as name,  p.height, p.weight, p.base_experience, " +
-                    "ps.capture_rate, ps.is_legendary, ps.is_mythical, " +
+                    "ps.capture_rate, ps.is_legendary, ps.is_mythical, ps2.identifier as evolves_from, " +
                     "g.identifier as generation," +
                     "c.identifier as color, h.identifier as habitat, s.identifier as shape " +
                     "FROM pokemon p " +
                     "LEFT JOIN pokemon_species ps ON p.species_id = ps.id " +
+                    "LEFT JOIN pokemon_species ps2 ON ps2.id = ps.evolves_from_species_id " +
                     "LEFT JOIN generations g ON ps.generation_id = g.id " +
                     "LEFT JOIN pokemon_colors c ON ps.color_id = c.id " +
                     "LEFT JOIN pokemon_habitats h ON ps.habitat_id = h.id " +
@@ -231,6 +273,8 @@ public class PokemonConnectorDB {
             }
 
             Move[] moves = getMovesByPokemonId(id);
+            String[][] evolvesTo = getEvolutions(id);
+            System.out.println(evolvesTo);
 
             if (rs1.next()) {
                 return new Pokemon(
@@ -247,7 +291,9 @@ public class PokemonConnectorDB {
                         rs1.getInt("capture_rate"),
                         rs1.getInt("is_legendary"),
                         rs1.getInt("is_mythical"),
-                        moves
+                        moves,
+                        rs1.getString("evolves_from"),
+                        evolvesTo
                 );
             }
             return null;
@@ -273,27 +319,35 @@ public class PokemonConnectorDB {
     public static void main(String[] args) {
         PokemonConnectorDB pokemonConnectorDB = new PokemonConnectorDB();
 
-        String[] types = pokemonConnectorDB.getAllTypes();
-        for (String type : types) {
-            System.out.println(type);
+//        String[] types = pokemonConnectorDB.getAllTypes();
+//        for (String type : types) {
+//            System.out.println(type);
+//        }
+//
+//        String[] generations = pokemonConnectorDB.getAllGenerations();
+//        for (String generation : generations) {
+//            System.out.println(generation);
+//        }
+//
+//        PokemonQuery[] pokemonQueries = pokemonConnectorDB.searchPokemon("pikachu", "electric", "generation-i");
+//        for (PokemonQuery pokemonQuery : pokemonQueries) {
+//            System.out.println(pokemonQuery.name + " " + pokemonQuery.id);
+//        }
+//
+//        Move[] moves = pokemonConnectorDB.getMovesByPokemonId(25);
+//        for (Move move : moves) {
+//            System.out.println(move.name + " " + move.type + " " + move.power + " " + move.pp + " " + move.accuracy + " " + move.priority + " " + move.damageClass);
+//        }
+//
+//        Pokemon pokemon = pokemonConnectorDB.getPokemonById(25);
+//        System.out.println(pokemon.name + " " + pokemon.generation + " " + pokemon.height + " " + pokemon.weight + " " + pokemon.baseExperience + " " + pokemon.color + " " + pokemon.habitat + " " + pokemon.shape + " " + pokemon.captureRate + " " + pokemon.isLegendary + " " + pokemon.isMythical);
+        // test getEvolutions
+        String[][] evolutions = pokemonConnectorDB.getEvolutions(133);
+        for (String[] evolution : evolutions) {
+            for (String e : evolution) {
+                System.out.print(e + " ");
+            }
+            System.out.println();
         }
-
-        String[] generations = pokemonConnectorDB.getAllGenerations();
-        for (String generation : generations) {
-            System.out.println(generation);
-        }
-
-        PokemonQuery[] pokemonQueries = pokemonConnectorDB.searchPokemon("pikachu", "electric", "generation-i");
-        for (PokemonQuery pokemonQuery : pokemonQueries) {
-            System.out.println(pokemonQuery.name + " " + pokemonQuery.id);
-        }
-
-        Move[] moves = pokemonConnectorDB.getMovesByPokemonId(25);
-        for (Move move : moves) {
-            System.out.println(move.name + " " + move.type + " " + move.power + " " + move.pp + " " + move.accuracy + " " + move.priority + " " + move.damageClass);
-        }
-
-        Pokemon pokemon = pokemonConnectorDB.getPokemonById(25);
-        System.out.println(pokemon.name + " " + pokemon.generation + " " + pokemon.height + " " + pokemon.weight + " " + pokemon.baseExperience + " " + pokemon.color + " " + pokemon.habitat + " " + pokemon.shape + " " + pokemon.captureRate + " " + pokemon.isLegendary + " " + pokemon.isMythical);
     }
 }
