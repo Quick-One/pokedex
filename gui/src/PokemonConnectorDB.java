@@ -132,7 +132,7 @@ public class PokemonConnectorDB {
                     "ORDER BY name";
 
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, "%" + name + "%");
+            preparedStatement.setString(1, name + "%");
             preparedStatement.setString(2, type);
             preparedStatement.setString(3, generation);
 
