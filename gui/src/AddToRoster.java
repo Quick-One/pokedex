@@ -81,7 +81,14 @@ public class AddToRoster extends JDialog{
 
         RosterConnecterDB connector = new RosterConnecterDB();
         Move[] moveArray = {move1, move2, move3, move4};
-        connector.addPokemonToRoster(selectedRoster, pokemon, moveArray);
+        int retCode = connector.addPokemonToRoster(selectedRoster, pokemon, moveArray);
+        if (retCode == 0) {
+            JOptionPane.showMessageDialog(AddToRoster.this, "An error occurred while adding the Pokemon to the roster", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (retCode == 2) {
+            JOptionPane.showMessageDialog(AddToRoster.this, "The Pokemon or moves are already in the roster", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         return true;
     }
 }

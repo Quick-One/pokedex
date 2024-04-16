@@ -175,5 +175,15 @@ CREATE TABLE roster (
     PRIMARY KEY (roster_id, pokemon_id, move_id),
     FOREIGN KEY (roster_id) REFERENCES roster_user(roster_id),
     FOREIGN KEY (pokemon_id) REFERENCES pokemon(id),
-    FOREIGN KEY (move_id) REFERENCES moves(id)
+    FOREIGN KEY (move_id) REFERENCES moves(id),        
 );
+
+CREATE TRIGGER check_move_count_before_insert BEFORE INSERT ON roster
+FOR EACH ROW
+BEGIN
+   DECLARE moves_count INT;
+   SELECT COUNT(*) INTO moves_count FROM roster WHERE roster_id = NEW.roster_id AND pokemon_id = NEW.pokemon_id;
+   IF moves_count >= 4 THEN 
+      SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = 'A Pokemon can have only 4 moves in a roster.';
+   END IF;
+END;

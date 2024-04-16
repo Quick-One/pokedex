@@ -174,7 +174,10 @@ public class RosterConnecterDB {
         return false;
     }
 
-    public Boolean addPokemonToRoster(RosterQuery rq, Pokemon p, Move[] moves) {
+    // 0 -> arbitrary error
+    // 1 -> success
+    // 2 -> duplicate pokemon or move
+    public int addPokemonToRoster(RosterQuery rq, Pokemon p, Move[] moves) {
         PreparedStatement ps = null;
         for (Move move : moves) {
             try {
@@ -183,11 +186,17 @@ public class RosterConnecterDB {
                 ps.setInt(2, p.id);
                 ps.setInt(3, move.id);
                 if (ps.executeUpdate() <= 0) {
-                    return false;
+                    return 0;
                 }
+
             } catch (SQLException e) {
+                String state = e.getSQLState();
+                if (state.equals("45000")) {
+                    return 2;
+                }
+
                 e.printStackTrace();
-                return false;
+                return 0;
             } finally {
                 try {
                     ps.close();
@@ -197,7 +206,7 @@ public class RosterConnecterDB {
             }
         }
 
-        return true;
+        return 1;
     }
 
     public Boolean updateRosterName(RosterQuery rq, String newName) {
