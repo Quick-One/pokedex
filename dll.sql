@@ -157,11 +157,15 @@ CREATE TABLE auth (
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
+-- DROP TABLE roster_user;
+-- DROP TABLE roster;
+
 CREATE TABLE roster_user (
     roster_id INT auto_increment PRIMARY KEY,
     roster_name VARCHAR(255),
     user_id INT,
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
+    CONSTRAINT unique_roster_name_per_user UNIQUE (roster_name, roster_id)
 );
 
 CREATE TABLE roster (
