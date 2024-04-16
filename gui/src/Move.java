@@ -1,11 +1,11 @@
 public class Move {
-    public int id;
+    public Integer id;
     public String name;
     public String type;
-    public int power;
-    public int pp;
-    public int accuracy;
-    public int priority;
+    public Integer power;
+    public Integer pp;
+    public Integer accuracy;
+    public Integer priority;
     public String damageClass;
 
     public Move(int id) {

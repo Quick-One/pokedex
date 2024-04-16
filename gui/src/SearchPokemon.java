@@ -92,6 +92,19 @@ public class SearchPokemon extends JDialog {
                 btSearch.doClick();
             }
         });
+        
+        listMove.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getClickCount() == 2) {
+                    Move selectedValue = listMove.getSelectedValue();
+                    if (selectedValue == null) return;
+                    new MoveInfo(null, selectedValue);
+                }
+            }
+        });
+
         setVisible(true);
     }
 
