@@ -7,11 +7,10 @@ public class MainMenu extends JFrame {
     private JButton btnAddRosters;
     private JLabel lblMainHeader;
     private JPanel MainMenuPanel;
-    private JLabel lblHeader1;
     private JButton btnUpdateRoster;
     private JButton btnDeleteRoster;
     private JButton btnShowRosters;
-    private JLabel lblHeader2;
+    private JButton logoutButton;
 
     public MainMenu() {
         setTitle("Main Menu");
@@ -52,13 +51,28 @@ public class MainMenu extends JFrame {
                 new UpdateRoster(MainMenu.this);
             }
         });
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User.getInstance().setIsLoggedIn(false);
+                User.getInstance().setUserId(0);
+                User.getInstance().setUsername("");
+                User.getInstance().setFirstName("");
+                User.getInstance().setLastName("");
+                new AuthMenu();
+                dispose();
+            }
+        });
+
         setVisible(true);
     }
 
     public static void main(String[] args) {
-        User.getInstance().setFirstName("test");
-
-
+        User.getInstance().setFirstName("admin");
+        User.getInstance().setLastName("admin");
+        User.getInstance().setUsername("admin");
+        User.getInstance().setIsLoggedIn(true);
+        User.getInstance().setUserId(5);
         new MainMenu();
     }
 }
