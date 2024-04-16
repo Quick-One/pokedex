@@ -26,7 +26,15 @@ public MainMenu() {
             new SearchPokemon(MainMenu.this);
         }
     });
+
+
     setVisible(true);
+    btnAddRosters.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new AddRoster(MainMenu.this);
+        }
+    });
 }
 
     public static void main(String[] args) {
