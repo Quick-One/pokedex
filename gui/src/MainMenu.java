@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainMenu extends  JFrame{
+public class MainMenu extends JFrame {
     private JButton btnSearchPokemon;
     private JButton btnAddRosters;
     private JLabel lblMainHeader;
@@ -13,38 +13,47 @@ public class MainMenu extends  JFrame{
     private JButton btnShowRosters;
     private JLabel lblHeader2;
 
-public MainMenu() {
-    setTitle("Main Menu");
-    setContentPane(MainMenuPanel);
-    pack();
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setLocationRelativeTo(null);
+    public MainMenu() {
+        setTitle("Main Menu");
+        setContentPane(MainMenuPanel);
+        pack();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-    btnSearchPokemon.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new SearchPokemon(MainMenu.this);
-        }
-    });
-
-
-    setVisible(true);
-    btnAddRosters.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new AddRoster(MainMenu.this);
-        }
-    });
-    btnShowRosters.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            SelectRoster selectRoster = new SelectRoster();
-            if (selectRoster.selectedRoster != null) {
-//                new ShowRoster(MainMenu.this, selectRoster.selectedRoster);
+        btnSearchPokemon.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SearchPokemon(MainMenu.this);
             }
-        }
-    });
-}
+        });
+
+        btnAddRosters.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddRoster(MainMenu.this);
+            }
+        });
+        btnShowRosters.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ShowRoster(MainMenu.this);
+            }
+        });
+
+        btnDeleteRoster.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new DeleteRoster(MainMenu.this);
+            }
+        });
+        btnUpdateRoster.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new UpdateRoster(MainMenu.this);
+            }
+        });
+        setVisible(true);
+    }
 
     public static void main(String[] args) {
         User.getInstance().setFirstName("test");

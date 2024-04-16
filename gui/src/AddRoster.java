@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class AddRoster extends JDialog{
+public class AddRoster extends JDialog {
     private JTextField tfRosterName;
     private JButton addRosterButton;
     private JButton cancelButton;

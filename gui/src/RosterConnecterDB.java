@@ -36,7 +36,7 @@ public class RosterConnecterDB {
         this.connection = getConnection();
     }
 
-    public static boolean checkConnection(){
+    public static boolean checkConnection() {
         try {
             // create a connection to the database
             Connection connection = DriverManager.getConnection(

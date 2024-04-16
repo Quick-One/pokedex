@@ -57,8 +57,7 @@ public class SignUp extends JDialog {
             boolean userAddStatus = AuthConnectorDB.checkSignUp(username, password, firstName, lastName);
             if (!userAddStatus) {
                 JOptionPane.showMessageDialog(null, "Username already exists!");
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Registration successful!");
                 dispose();
             }

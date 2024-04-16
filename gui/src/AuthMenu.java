@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AuthMenu extends JFrame{
+public class AuthMenu extends JFrame {
     private JButton btnLogin;
     private JButton btnSignUp;
     private JLabel WelcomeMsg;
@@ -26,7 +26,7 @@ public class AuthMenu extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Login(AuthMenu.this);
-                if (User.getInstance().isLoggedIn){
+                if (User.getInstance().isLoggedIn) {
                     dispose();
                     new MainMenu();
                 }

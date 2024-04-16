@@ -11,7 +11,7 @@ public class AuthConnectorDB {
     private static final String DB_NAME = System.getenv("DB_NAME");
 
     // returns a result set of the query
-    public static boolean checkConnection(){
+    public static boolean checkConnection() {
         try {
             // create a connection to the database
             Connection connection = DriverManager.getConnection(
@@ -74,8 +74,14 @@ public class AuthConnectorDB {
             e.printStackTrace();
         } finally {
             // close the connection
-            try {connection.close();} catch (Exception e) {}
-            try {preparedStatement.close();} catch (Exception e) {}
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
+            try {
+                preparedStatement.close();
+            } catch (Exception e) {
+            }
         }
 
         return rs;
@@ -110,7 +116,7 @@ public class AuthConnectorDB {
         // add a new user to the database
 
         int user_id = -1;
-        try(CachedRowSet resultSet = executeUserDBCommand(
+        try (CachedRowSet resultSet = executeUserDBCommand(
                 "INSERT INTO user (username, first_name, last_name) VALUES (?, ?, ?);",
                 username, first_name, last_name)) {
             if (resultSet.next()) {
@@ -124,7 +130,7 @@ public class AuthConnectorDB {
         if (user_id == -1) {
             return;
         }
-        try(CachedRowSet resultSet = executeUserDBCommand(
+        try (CachedRowSet resultSet = executeUserDBCommand(
                 "INSERT INTO auth (user_id, password) VALUES (?, ?);",
                 user_id, password)) {
             if (resultSet.next()) {
@@ -140,7 +146,7 @@ public class AuthConnectorDB {
         // returns false if the username already exists
         // returns true if the username does not exist
 
-        try(CachedRowSet resultSet = executeUserDBCommand(
+        try (CachedRowSet resultSet = executeUserDBCommand(
                 "SELECT * FROM user WHERE username = ?;",
                 username)) {
             if (resultSet.next()) {
@@ -154,7 +160,7 @@ public class AuthConnectorDB {
         return true;
     }
 
-    public static void main(String[] args) throws SQLException{
+    public static void main(String[] args) throws SQLException {
 
 //        // test the connection
 //        checkConnection();

@@ -14,20 +14,24 @@ public class ShowRoster extends JDialog {
     private JPanel SelectRosterCol;
     private JPanel RosterInfoCol;
 
-    public ShowRoster() {
+    public ShowRoster(JFrame parent) {
         setTitle("Show Roster");
         setContentPane(SelectRosterPanel);
-        setSize(500, 500);
+        setSize(600, 500);
+        RosterInfoCol.setMinimumSize(SelectRosterCol.getMinimumSize());
+        SelectRosterCol.setMinimumSize(SelectRosterCol.getMinimumSize());
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setMinimumSize(SelectRosterPanel.getMinimumSize());
+        setLocationRelativeTo(parent);
         setModal(true);
 
-        // empty the default InfoTree
         InfoTree.setModel(null);
 
         RosterConnecterDB connector = new RosterConnecterDB();
-        listRosters.setListData(connector.getAllRosters());
-        int NumberOfRosters = connector.getAllRosters().length;
+        RosterQuery[] allRoster = connector.getAllRosters();
+        listRosters.setListData(allRoster);
+
+        int NumberOfRosters = allRoster.length;
         tfNumberOfRoster.setText(String.valueOf(NumberOfRosters));
 
         closeButton.addActionListener(new ActionListener() {
@@ -42,18 +46,22 @@ public class ShowRoster extends JDialog {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 RosterQuery selectedRoster = listRosters.getSelectedValue();
-                if (selectedRoster == null) {return;}
-                Roster roster = connector.getRosterById(selectedRoster.id);
+                if (selectedRoster == null) {
+                    return;
+                }
+                Roster roster = connector.getRosterById(selectedRoster);
                 displayRosterInfo(roster);
             }
         });
+
+        setVisible(true);
     }
 
-    private void displayRosterInfo(Roster roster){
+    private void displayRosterInfo(Roster roster) {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(roster.name);
-        for (Pokemon pokemon : roster.pokemon){
+        for (Pokemon pokemon : roster.pokemon) {
             DefaultMutableTreeNode pokemonNode = new DefaultMutableTreeNode(pokemon.name);
-            for (Move move : pokemon.moves){
+            for (Move move : pokemon.moves) {
                 DefaultMutableTreeNode moveNode = new DefaultMutableTreeNode(move.name);
                 pokemonNode.add(moveNode);
             }

@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class SearchPokemon extends JDialog{
+public class SearchPokemon extends JDialog {
     private JPanel MainPanel;
     private JTextField tfName;
     private JButton btSearch;
@@ -33,15 +33,15 @@ public class SearchPokemon extends JDialog{
         setSize(900, 500);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(parent);
-        
+
         PokemonConnectorDB connector = new PokemonConnectorDB();
         cbxType.addItem(null);
-        for (String type : connector.getAllTypes()){
+        for (String type : connector.getAllTypes()) {
             cbxType.addItem(type);
         }
 
         cbxGeneration.addItem(null);
-        for (String generation : connector.getAllGenerations()){
+        for (String generation : connector.getAllGenerations()) {
             cbxGeneration.addItem(generation);
         }
 
@@ -51,12 +51,8 @@ public class SearchPokemon extends JDialog{
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 PokemonQuery selectedValue = listQueryResult.getSelectedValue();
-                System.out.println(selectedValue);
-                System.out.println(selectedValue.id);
                 if (selectedValue == null) return;
                 Pokemon pokemon = connector.getPokemonById(selectedValue.id);
-                System.out.println(pokemon.habitat);
-                System.out.println(pokemon);
                 listMove.setListData(pokemon.moves);
                 populateTable(pokemon);
             }
@@ -77,8 +73,6 @@ public class SearchPokemon extends JDialog{
                 listQueryResult.setListData(res);
             }
         });
-        listQueryResult.addMouseListener(new MouseAdapter() {
-        });
     }
 
     public static void main(String[] args) {
@@ -89,7 +83,7 @@ public class SearchPokemon extends JDialog{
         setupTable();
     }
 
-    private void setupTable(){
+    private void setupTable() {
         String[] columnNames = {"Attribute", "Value"};
         Object[][] data = {
                 {"Name", ""},
@@ -109,7 +103,7 @@ public class SearchPokemon extends JDialog{
         tableInfo = new JTable(data, columnNames);
     }
 
-    private void populateTable(Pokemon pokemon){
+    private void populateTable(Pokemon pokemon) {
         java.util.function.Function<Object, String> nullToNA = (Object value) -> value == null ? "N/A" : value.toString();
         tableInfo.setValueAt(nullToNA.apply(pokemon.name), 0, 1);
         tableInfo.setValueAt(nullToNA.apply(pokemon.id), 1, 1);

@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class Login extends JDialog{
+public class Login extends JDialog {
     private JPanel LoginPanel;
     private JTextField tfUsername;
     private JTextField tfPassword;
@@ -43,8 +43,7 @@ public class Login extends JDialog{
         boolean loginSucc = AuthConnectorDB.checkLogin(username, password);
         if (!loginSucc) {
             JOptionPane.showMessageDialog(null, "Invalid username or password!");
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Login successful!");
         }
     }
