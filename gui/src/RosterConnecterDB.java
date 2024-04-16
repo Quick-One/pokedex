@@ -34,4 +34,25 @@ public class RosterConnecterDB {
             return false;
         }
     }
+
+    public Roster[] getAllRosters() {
+        // TODO - implement gettings all rosters for the user
+        return null;
+    }
+
+    public void addRoster(String name) {
+        // TODO - implement adding a roster for the user
+    }
+
+    public void addPokemonToRoster(RosterQuery rq, Pokemon p, Move[] moves) {
+        // TODO - implement adding a pokemon to a roster
+    }
+
+    public void updateRosterName(RosterQuery rq, String newName) {
+        // TODO - implement updating a roster name
+    }
+
+    public void deleteRoster(RosterQuery rq) {
+        // TODO - implement deleting a roster
+    }
 }
