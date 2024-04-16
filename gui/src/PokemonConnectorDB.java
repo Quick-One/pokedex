@@ -164,7 +164,8 @@ public class PokemonConnectorDB {
                     "JOIN pokemon_moves pm ON m.id = pm.move_id " +
                     "JOIN types t ON m.type_id = t.id " +
                     "JOIN move_damage_classes mdc ON m.damage_class_id = mdc.id " +
-                    "WHERE pm.pokemon_id = ?";
+                    "WHERE pm.pokemon_id = ? " +
+                    "ORDER BY name";
 
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
