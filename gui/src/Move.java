@@ -8,6 +8,10 @@ public class Move {
     public int priority;
     public String damageClass;
 
+    public Move(int id) {
+        this.id = id;
+    }
+
     public Move(int id, String name, String type, int power, int pp, int accuracy, int priority, String damageClass) {
         this.id = id;
         this.name = name;

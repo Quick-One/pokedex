@@ -1,6 +1,8 @@
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RosterConnecterDB {
     private static final String DB_USER = System.getenv("DB_USER");
@@ -8,6 +10,7 @@ public class RosterConnecterDB {
     private static final String DB_HOST = System.getenv("DB_HOST");
     private static final String DB_PORT = System.getenv("DB_PORT");
     private static final String DB_NAME = System.getenv("DB_NAME");
+    PokemonConnectorDB pokemonConnectorDB = new PokemonConnectorDB();
 
     private Connection connection;
 
@@ -60,48 +63,189 @@ public class RosterConnecterDB {
     }
 
     public RosterQuery[] getAllRosters() {
-        // TODO - implement gettings all rosters for the user
         User currentUser = User.getInstance();
         PreparedStatement ps = null;
+
         try {
-            ps = connection.prepareStatement("SELECT * FROM roster_user WHERE user_id = ?");
-//            ps.setInt(1, currentUser.);
+            ps = connection.prepareStatement("SELECT roster_name as name, roster_id as id FROM roster_user WHERE user_id = ?");
+            ps.setInt(1, currentUser.userId);
+
             ResultSet rs = ps.executeQuery();
-            CachedRowSet crs = RowSetProvider.newFactory().createCachedRowSet();
-            crs.populate(rs);
-            RosterQuery[] rosters = new RosterQuery[crs.size()];
-            while (crs.next()) {
-                rosters[crs.getRow() - 1] = new RosterQuery(crs.getString("name"), crs.getInt("id"));
+            List<RosterQuery> rosters = new ArrayList<>();
+            while (rs.next()) {
+                rosters.add(new RosterQuery(rs.getString("name"), rs.getInt("id")));
             }
-            return rosters;
+            return rosters.toArray(new RosterQuery[0]);
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+        } finally {
+            try {
+                ps.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+        return null;
+    }
+
+    private Move[] getMovesInRoster(int roster_id, int pokemon_id) {
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("SELECT move_id FROM roster WHERE roster_id = ? AND pokemon_id = ?");
+            ps.setInt(1, roster_id);
+            ps.setInt(2, pokemon_id);
+
+            ResultSet rs = ps.executeQuery();
+            List<Move> moves = new ArrayList<>();
+            while (rs.next()) {
+                moves.add(new Move(rs.getInt("move_id")));
+            }
+
+            return moves.toArray(new Move[0]);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                ps.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
     }
 
     public Roster getRosterById(int id) {
         // TODO - implement getting a roster by id
-        return null;
+        PreparedStatement ps = null;
+        Roster roster = null;
+        try {
+            ps = connection.prepareStatement("SELECT r.roster_id as rid, r.pokemon_id FROM roster_user ru JOIN roster r ON ru.roster_id = r.roster_id WHERE r.roster_id = ?");
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+            List<Pokemon> pokemon = new ArrayList<>();
+            if (rs.next()) {
+                pokemon.add(pokemonConnectorDB.getPokemonById(rs.getInt("pokemon_id")));
+            }
+
+            for (Pokemon p : pokemon) {
+                try {
+                    p.moves = getMovesInRoster(id, p.id);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            roster = new Roster(id, "roster name", pokemon.toArray(new Pokemon[0]));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return roster;
     }
 
     public Boolean addRoster(String name) {
-        // TODO - implement adding a roster for the user
-        return null;
+        PreparedStatement ps = null;
+
+        try {
+            ps = connection.prepareStatement("INSERT INTO roster_user (roster_name, user_id) VALUES (?, ?)");
+            ps.setString(1, name);
+            ps.setInt(2, User.getInstance().userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
     }
 
     public Boolean addPokemonToRoster(RosterQuery rq, Pokemon p, Move[] moves) {
-        // TODO - implement adding a pokemon to a roster
-        return null;
+        PreparedStatement ps = null;
+        for (Move move : moves) {
+            try {
+                ps = connection.prepareStatement("INSERT INTO roster (roster_id, pokemon_id, move_id) VALUES (?, ?, ?)");
+                ps.setInt(1, rq.id);
+                ps.setInt(2, p.id);
+                ps.setInt(3, move.id);
+                if (ps.executeUpdate() <= 0) {
+                    return false;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            } finally {
+                try {
+                    ps.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return true;
     }
 
     public Boolean updateRosterName(RosterQuery rq, String newName) {
-        // TODO - implement updating a roster name
-        return null;
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("UPDATE roster_user SET roster_name = ? WHERE roster_id = ?");
+            ps.setString(1, newName);
+            ps.setInt(2, rq.id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
     }
 
     public Boolean deleteRoster(RosterQuery rq) {
-        // TODO - implement deleting a roster
-        return null;
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("DELETE FROM roster_user WHERE roster_id = ?");
+            ps.setInt(1, rq.id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        RosterConnecterDB rcd = new RosterConnecterDB();
+        RosterQuery[] rosters = rcd.getAllRosters();
+        for (RosterQuery roster : rosters) {
+            System.out.println(roster);
+        }
     }
 }
