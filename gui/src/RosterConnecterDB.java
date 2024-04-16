@@ -1,5 +1,3 @@
-import javax.sql.rowset.CachedRowSet;
-import javax.sql.rowset.RowSetProvider;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +87,7 @@ public class RosterConnecterDB {
         return null;
     }
 
-    private Move[] getMovesInRoster(int roster_id, int pokemon_id) {
+    private List<Integer> getMovesInRosterOfPokemon(int roster_id, int pokemon_id) {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement("SELECT move_id FROM roster WHERE roster_id = ? AND pokemon_id = ?");
@@ -97,12 +95,11 @@ public class RosterConnecterDB {
             ps.setInt(2, pokemon_id);
 
             ResultSet rs = ps.executeQuery();
-            List<Move> moves = new ArrayList<>();
+            List<Integer> moves = new ArrayList<>();
             while (rs.next()) {
-                moves.add(new Move(rs.getInt("move_id")));
+                moves.add(rs.getInt("move_id"));
             }
-
-            return moves.toArray(new Move[0]);
+            return moves;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -123,25 +120,26 @@ public class RosterConnecterDB {
         PreparedStatement ps = null;
         Roster roster = null;
         try {
-            ps = connection.prepareStatement("SELECT r.roster_id as rid, r.pokemon_id FROM roster_user ru JOIN roster r ON ru.roster_id = r.roster_id WHERE r.roster_id = ?");
+            ps = connection.prepareStatement("SELECT DISTINCT r.roster_id as rid, r.pokemon_id FROM roster_user ru JOIN roster r ON ru.roster_id = r.roster_id WHERE r.roster_id = ?");
             ps.setInt(1, rq.id);
 
             ResultSet rs = ps.executeQuery();
             List<Pokemon> pokemon = new ArrayList<>();
-            if (rs.next()) {
+            while (rs.next()) {
                 pokemon.add(pokemonConnectorDB.getPokemonById(rs.getInt("pokemon_id")));
             }
-
+            System.out.println("ROSTER" + pokemon.size());
             for (Pokemon p : pokemon) {
-                try {
-                    p.moves = getMovesInRoster(rq.id, p.id);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                List<Integer> validMoveIDs = getMovesInRosterOfPokemon(rq.id, p.id);
+                ArrayList<Move> moves = new ArrayList<>();
+                for (Move m : p.moves){
+                    if (validMoveIDs.contains(m.id)){
+                        moves.add(m);
+                    }
                 }
+                p.moves = moves.toArray(new Move[0]);
             }
-
             roster = new Roster(rq.id, rq.name, pokemon.toArray(new Pokemon[0]));
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
