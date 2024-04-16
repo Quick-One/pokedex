@@ -46,7 +46,9 @@ public class ShowRoster extends JDialog {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 RosterQuery selectedRoster = listRosters.getSelectedValue();
-                if (selectedRoster == null) {return;}
+                if (selectedRoster == null) {
+                    return;
+                }
                 Roster roster = connector.getRosterById(selectedRoster);
                 displayRosterInfo(roster);
             }
@@ -55,11 +57,11 @@ public class ShowRoster extends JDialog {
         setVisible(true);
     }
 
-    private void displayRosterInfo(Roster roster){
+    private void displayRosterInfo(Roster roster) {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(roster.name);
-        for (Pokemon pokemon : roster.pokemon){
+        for (Pokemon pokemon : roster.pokemon) {
             DefaultMutableTreeNode pokemonNode = new DefaultMutableTreeNode(pokemon.name);
-            for (Move move : pokemon.moves){
+            for (Move move : pokemon.moves) {
                 DefaultMutableTreeNode moveNode = new DefaultMutableTreeNode(move.name);
                 pokemonNode.add(moveNode);
             }

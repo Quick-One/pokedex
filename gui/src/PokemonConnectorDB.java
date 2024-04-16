@@ -33,7 +33,7 @@ public class PokemonConnectorDB {
     }
 
     // returns a result set of the query
-    private boolean checkConnection(){
+    private boolean checkConnection() {
         try {
             // create a connection to the database
             Connection connection = DriverManager.getConnection(
@@ -133,7 +133,7 @@ public class PokemonConnectorDB {
 
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, "%" + name + "%");
-            preparedStatement.setString(2,  type);
+            preparedStatement.setString(2, type);
             preparedStatement.setString(3, generation);
 
             ResultSet rs = preparedStatement.executeQuery();

@@ -2,13 +2,13 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DeleteRoster extends JDialog{
+public class DeleteRoster extends JDialog {
     private JComboBox<RosterQuery> cbxRosters;
     private JButton deleteButton;
     private JButton cancelButton;
     private JPanel DeleteRosterPanel;
 
-    public DeleteRoster(JFrame parent){
+    public DeleteRoster(JFrame parent) {
         super(parent);
         setModal(true);
         setTitle("Delete Roster");
@@ -20,7 +20,7 @@ public class DeleteRoster extends JDialog{
         RosterConnecterDB connector = new RosterConnecterDB();
         RosterQuery[] allRosters = connector.getAllRosters();
         cbxRosters.addItem(null);
-        for (RosterQuery roster : allRosters){
+        for (RosterQuery roster : allRosters) {
             cbxRosters.addItem(roster);
         }
 
@@ -36,8 +36,7 @@ public class DeleteRoster extends JDialog{
                 RosterQuery selectedRoster = (RosterQuery) cbxRosters.getSelectedItem();
                 if (selectedRoster == null) {
                     JOptionPane.showMessageDialog(DeleteRoster.this, "Please select a roster to delete");
-                }
-                else {
+                } else {
                     int confirm = JOptionPane.showConfirmDialog(DeleteRoster.this, "Are you sure you want to delete this roster?");
                     if (confirm != JOptionPane.YES_OPTION) {
                         return;

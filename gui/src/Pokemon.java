@@ -41,7 +41,7 @@ public class Pokemon {
     public String getIsLegendary() {
         if (isLegendary == 1) {
             return "Yes";
-        } else if (isLegendary == 0){
+        } else if (isLegendary == 0) {
             return "No";
         }
         return "N/A";
@@ -50,7 +50,7 @@ public class Pokemon {
     public String getIsMythical() {
         if (isMythical == 1) {
             return "Yes";
-        } else if (isMythical == 0){
+        } else if (isMythical == 0) {
             return "No";
         }
         return "N/A";
