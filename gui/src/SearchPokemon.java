@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -24,6 +23,7 @@ public class SearchPokemon extends JDialog {
     private JPanel tabInfo;
     private JPanel tabMoves;
     private JList<Move> listMove;
+    private JButton addPokemonToRosterButton;
 
     public SearchPokemon(JFrame parent) {
         super(parent);
@@ -31,6 +31,9 @@ public class SearchPokemon extends JDialog {
         setTitle("Search Pokemon");
         setContentPane(MainPanel);
         setSize(900, 500);
+//        SearchCol.setMinimumSize(ResultCol.getMinimumSize());
+//        QueryCol.setMinimumSize(ResultCol.getMinimumSize());
+//        ResultCol.setMinimumSize(ResultCol.getMinimumSize());
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(parent);
 
@@ -65,7 +68,6 @@ public class SearchPokemon extends JDialog {
             }
         });
 
-        setVisible(true);
         btSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,6 +75,17 @@ public class SearchPokemon extends JDialog {
                 listQueryResult.setListData(res);
             }
         });
+
+        addPokemonToRosterButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PokemonQuery selectedValue = listQueryResult.getSelectedValue();
+                if (selectedValue == null) return;
+                Pokemon pokemon = connector.getPokemonById(selectedValue.id);
+                new AddToRoster(parent, pokemon);
+            }
+        });
+        setVisible(true);
     }
 
     public static void main(String[] args) {
