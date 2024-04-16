@@ -27,6 +27,7 @@ public class SearchPokemon extends JDialog{
 
     public SearchPokemon(JFrame parent) {
         super(parent);
+        setModal(true);
         setTitle("Search Pokemon");
         setContentPane(MainPanel);
         setSize(900, 500);
