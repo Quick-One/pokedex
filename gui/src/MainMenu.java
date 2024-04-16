@@ -27,8 +27,6 @@ public MainMenu() {
         }
     });
 
-
-    setVisible(true);
     btnAddRosters.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -41,6 +39,14 @@ public MainMenu() {
             new ShowRoster(MainMenu.this);
         }
     });
+
+    btnDeleteRoster.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new DeleteRoster(MainMenu.this);
+        }
+    });
+    setVisible(true);
 }
 
     public static void main(String[] args) {
