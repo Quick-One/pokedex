@@ -35,7 +35,7 @@ public class AddRoster extends JDialog{
         if (rosterName.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields!");
         }
-        // TODO - implement an add new roster method
+
         return null;
     }
 }
