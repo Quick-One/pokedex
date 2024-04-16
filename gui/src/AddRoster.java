@@ -17,8 +17,8 @@ public class AddRoster extends JDialog{
         setLocationRelativeTo(parent);
 
         addRosterButton.addActionListener(e -> {
-            RosterQuery roster = addRoster();
-            if (roster != null) {
+            Boolean additionSucc = addRoster();
+            if (additionSucc) {
                 dispose();
             }
         });
@@ -30,12 +30,20 @@ public class AddRoster extends JDialog{
         setVisible(true);
     }
 
-    private RosterQuery addRoster() {
+    private Boolean addRoster() {
         String rosterName = tfRosterName.getText();
         if (rosterName.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields!");
+            return false;
         }
 
-        return null;
+        RosterConnecterDB connector = new RosterConnecterDB();
+        Boolean additionSucc = connector.addRoster(rosterName);
+        if (additionSucc) {
+            JOptionPane.showMessageDialog(null, "Roster added successfully!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Failed to add roster!");
+        }
+        return additionSucc;
     }
 }
