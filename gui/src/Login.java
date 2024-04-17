@@ -44,6 +44,7 @@ public class Login extends JDialog {
         if (!loginSucc) {
             JOptionPane.showMessageDialog(null, "Invalid username or password!");
         } else {
+            PokedexLogger.signIn();
             JOptionPane.showMessageDialog(null, "Login successful!");
         }
     }

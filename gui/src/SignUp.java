@@ -58,6 +58,7 @@ public class SignUp extends JDialog {
             if (!userAddStatus) {
                 JOptionPane.showMessageDialog(null, "Username already exists!");
             } else {
+                PokedexLogger.signUp(username, firstName, lastName);
                 JOptionPane.showMessageDialog(null, "Registration successful!");
                 dispose();
             }

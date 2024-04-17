@@ -8,3 +8,4 @@ gui/.gitignore
 gui/out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+gui/*.log

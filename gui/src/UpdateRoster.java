@@ -46,6 +46,7 @@ public class UpdateRoster extends JDialog {
                     return;
                 }
                 connector.updateRosterName(selectedRoster, newName);
+                PokedexLogger.updateRoster(selectedRoster, newName);
                 dispose();
             }
         });

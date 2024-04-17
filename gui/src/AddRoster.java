@@ -19,6 +19,7 @@ public class AddRoster extends JDialog {
         addRosterButton.addActionListener(e -> {
             Boolean additionSucc = addRoster();
             if (additionSucc) {
+                PokedexLogger.createRoster(tfRosterName.getText());
                 dispose();
             }
         });

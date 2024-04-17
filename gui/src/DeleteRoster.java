@@ -41,6 +41,7 @@ public class DeleteRoster extends JDialog {
                     if (confirm != JOptionPane.YES_OPTION) {
                         return;
                     }
+                    PokedexLogger.deleteRoster(selectedRoster);
                     connector.deleteRoster(selectedRoster);
                     dispose();
                 }

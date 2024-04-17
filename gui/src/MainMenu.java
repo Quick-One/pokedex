@@ -54,6 +54,7 @@ public class MainMenu extends JFrame {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                PokedexLogger.signOut();
                 User.getInstance().setIsLoggedIn(false);
                 User.getInstance().setUserId(0);
                 User.getInstance().setUsername("");

@@ -30,9 +30,6 @@ public class SearchPokemon extends JDialog {
         setTitle("Search Pokemon");
         setContentPane(MainPanel);
         setSize(900, 500);
-//        SearchCol.setMinimumSize(ResultCol.getMinimumSize());
-//        QueryCol.setMinimumSize(ResultCol.getMinimumSize());
-//        ResultCol.setMinimumSize(ResultCol.getMinimumSize());
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(parent);
 
@@ -58,6 +55,7 @@ public class SearchPokemon extends JDialog {
                 listMove.setListData(pokemon.moves);
                 populateTable(pokemon);
                 txtEvolution.setText(pokemon.getEvolutions());
+                PokedexLogger.searchPokemon(pokemon);
             }
         });
 

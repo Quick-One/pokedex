@@ -89,6 +89,7 @@ public class AddToRoster extends JDialog{
             JOptionPane.showMessageDialog(AddToRoster.this, "The Pokemon or moves are already in the roster", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+        PokedexLogger.addPokemonToRoster(pokemon, selectedRoster);
         return true;
     }
 }

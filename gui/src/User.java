@@ -50,4 +50,8 @@ public class User {
     public void setIsLoggedIn(boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;
     }
+
+    public String toString(){
+        return username + "(" + first_name + " " + last_name + ")";
+    }
 }
