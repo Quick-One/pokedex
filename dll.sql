@@ -139,10 +139,10 @@ create index type_id
     on pokemon_types (type_id);
 
 -- # use pokedex;
--- # DROP  table roster;
--- # drop table roster_user;
--- # drop table auth;
--- # drop table  user;
+DROP table roster;
+drop table roster_user;
+drop table auth;
+drop table  user;
 
 CREATE TABLE user (
     user_id INT auto_increment PRIMARY KEY,
@@ -175,7 +175,7 @@ CREATE TABLE roster (
     PRIMARY KEY (roster_id, pokemon_id, move_id),
     FOREIGN KEY (roster_id) REFERENCES roster_user(roster_id) ON DELETE CASCADE,
     FOREIGN KEY (pokemon_id) REFERENCES pokemon(id) ON DELETE CASCADE,
-    FOREIGN KEY (move_id) REFERENCES moves(id) ON DELETE CASCADE,        
+    FOREIGN KEY (move_id) REFERENCES moves(id) ON DELETE CASCADE     
 );
 
 CREATE TRIGGER check_move_count_before_insert BEFORE INSERT ON roster
@@ -184,6 +184,6 @@ BEGIN
    DECLARE moves_count INT;
    SELECT COUNT(*) INTO moves_count FROM roster WHERE roster_id = NEW.roster_id AND pokemon_id = NEW.pokemon_id;
    IF moves_count >= 4 THEN 
-      SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = 'A Pokemon can have only 4 moves in a roster.';
+      SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'A Pokemon can have only 4 moves in a roster.';
    END IF;
 END;
