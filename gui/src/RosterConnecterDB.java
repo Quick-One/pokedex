@@ -128,7 +128,6 @@ public class RosterConnecterDB {
             while (rs.next()) {
                 pokemon.add(pokemonConnectorDB.getPokemonById(rs.getInt("pokemon_id")));
             }
-            System.out.println("ROSTER" + pokemon.size());
             for (Pokemon p : pokemon) {
                 List<Integer> validMoveIDs = getMovesInRosterOfPokemon(rq.id, p.id);
                 ArrayList<Move> moves = new ArrayList<>();

@@ -276,7 +276,6 @@ public class PokemonConnectorDB {
 
             Move[] moves = getMovesByPokemonId(id);
             String[][] evolvesTo = getEvolutions(id);
-            System.out.println(evolvesTo);
 
             if (rs1.next()) {
                 return new Pokemon(
