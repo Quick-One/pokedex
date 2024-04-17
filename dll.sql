@@ -154,7 +154,7 @@ CREATE TABLE user (
 CREATE TABLE auth (
     user_id INT PRIMARY KEY,
     password VARCHAR(255),
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
 
 -- DROP TABLE roster_user;
@@ -173,9 +173,9 @@ CREATE TABLE roster (
     pokemon_id INT,
     move_id INT,
     PRIMARY KEY (roster_id, pokemon_id, move_id),
-    FOREIGN KEY (roster_id) REFERENCES roster_user(roster_id),
-    FOREIGN KEY (pokemon_id) REFERENCES pokemon(id),
-    FOREIGN KEY (move_id) REFERENCES moves(id),        
+    FOREIGN KEY (roster_id) REFERENCES roster_user(roster_id) ON DELETE CASCADE,
+    FOREIGN KEY (pokemon_id) REFERENCES pokemon(id) ON DELETE CASCADE,
+    FOREIGN KEY (move_id) REFERENCES moves(id) ON DELETE CASCADE,        
 );
 
 CREATE TRIGGER check_move_count_before_insert BEFORE INSERT ON roster
