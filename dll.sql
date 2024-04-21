@@ -139,10 +139,10 @@ create index type_id
     on pokemon_types (type_id);
 
 -- # use pokedex;
-DROP table roster;
-drop table roster_user;
-drop table auth;
-drop table  user;
+-- DROP table roster;
+-- drop table roster_user;
+-- drop table auth;
+-- drop table  user;
 
 CREATE TABLE user (
     user_id INT auto_increment PRIMARY KEY,
@@ -156,9 +156,6 @@ CREATE TABLE auth (
     password VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
-
--- DROP TABLE roster_user;
--- DROP TABLE roster;
 
 CREATE TABLE roster_user (
     roster_id INT auto_increment PRIMARY KEY,
